@@ -226,7 +226,8 @@ h1,h2,h3{font-family:var(--f-disp);line-height:1.08;margin:0;font-weight:700;let
   .hdr-tel{width:44px;height:44px;justify-content:center;border:1px solid var(--line-2);border-radius:9px}
 }
 @media(max-width:420px){.logo img{height:42px}}
-@media(max-width:480px){.hero-kick{font-size:11px;letter-spacing:.11em;gap:9px}}
+@media(max-width:480px){.hero-kick{display:flex;flex-wrap:wrap;align-items:center;row-gap:6px;
+  font-size:10.5px;letter-spacing:.07em;gap:8px;text-align:left}}
 
 /* ============================================================
    HERO (светлый)
@@ -253,22 +254,25 @@ h1,h2,h3{font-family:var(--f-disp);line-height:1.08;margin:0;font-weight:700;let
 .hero-call small{font-size:12.5px;color:var(--mut-2)}
 
 /* образ: вырезка на «постаменте» + размерные линии */
-.hero-vis{position:relative;min-height:340px}
-.hero-vis::before{content:"";position:absolute;left:-4%;right:-8%;top:6%;bottom:-2%;
+/* коробка визуала = коробка картинки: размерные линии считаются от объекта, а не от колонки.
+   Прежний hero-pipes.webp имел 44% пустой прозрачности слева — линии висели над пустотой. */
+.hero-vis{position:relative;min-height:340px;width:min(100%,420px);justify-self:end}
+.hero-vis::before{content:"";position:absolute;left:-16%;right:-16%;top:2%;bottom:-4%;
   background:radial-gradient(72% 62% at 52% 58%,var(--plinth),transparent 74%)}
-.hero-img{position:relative;z-index:2;filter:drop-shadow(0 30px 34px rgba(23,27,32,.3));
+.hero-img{position:relative;z-index:2;padding-top:30px;  /* полоса под размерную линию, иначе предмет наезжает на подпись */
+  filter:drop-shadow(0 30px 34px rgba(23,27,32,.3));
   will-change:transform}
-.hero-img img{width:min(118%,640px);max-width:none;margin-left:-4%}
+.hero-img img{display:block;width:100%;max-width:none;margin:0}
 .hero-dim{position:absolute;z-index:3;font:600 10.5px/1 var(--f-mono);letter-spacing:.1em;
   color:var(--mut);white-space:nowrap;opacity:0;transition:opacity .8s .9s}
 .hero.loaded .hero-dim{opacity:1}
 .hero-dim::before{content:"";position:absolute;background:var(--acc-t);opacity:.55}
 .hero-dim i{position:absolute;background:var(--acc-t);opacity:.55}
-.hero-dim.d-top{top:-6px;left:8%;right:30%}
+.hero-dim.d-top{top:0;left:0;right:0}
 .hero-dim.d-top::before{left:0;right:0;top:16px;height:1px}
 .hero-dim.d-top i{top:12px;width:1px;height:9px}
 .hero-dim.d-top i:first-of-type{left:0}.hero-dim.d-top i:last-of-type{right:0}
-.hero-dim.d-side{top:22%;bottom:16%;right:-14px;writing-mode:vertical-rl}
+.hero-dim.d-side{top:36px;bottom:5%;right:-16px;writing-mode:vertical-rl}
 .hero-dim.d-side::before{top:0;bottom:0;left:16px;width:1px}
 .hero-dim.d-side i{left:12px;width:9px;height:1px}
 .hero-dim.d-side i:first-of-type{top:0}.hero-dim.d-side i:last-of-type{bottom:0}
@@ -289,10 +293,11 @@ h1,h2,h3{font-family:var(--f-disp);line-height:1.08;margin:0;font-weight:700;let
 .stat > span{display:block;margin-top:8px;font-size:13px;line-height:1.4;color:var(--mut-2)}
 @media(max-width:1024px){
   .hero-cols{grid-template-columns:1fr}
-  .hero-vis{order:-1;min-height:0;margin-top:8px}
-  .hero-img img{width:min(94%,480px);margin:0 auto}
+  .hero-vis{order:-1;min-height:0;margin-top:36px}  /* подпись размерной линии налезала на заголовок */
+  .hero-vis{width:min(94%,400px);justify-self:center}
+  .hero-img img{width:100%;margin:0}
   .hero-dim.d-side{display:none}
-  .hero-dim.d-top{right:8%}
+  .hero-dim.d-top{right:0}
   .stats-in{grid-template-columns:repeat(3,1fr)}
   .stat{border-right:0}
   .stat:nth-child(-n+3){border-bottom:1px solid var(--line)}
