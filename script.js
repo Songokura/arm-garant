@@ -1,295 +1,398 @@
 /* ============================================================
-   ARM-GARANT — общий скрипт (все страницы)
-   i18n RU/KZ · шапка · мобильное меню · reveal · счётчики ·
-   лента брендов · форма КП → WhatsApp · чистые обработчики
+   АРМ-ГАРАНТ — скрипт страницы.
+   Перевод RU/KZ · шапка · меню · появление · счётчики ·
+   лента брендов · бегущая строка · форма → WhatsApp
    ============================================================ */
 (function(){
 "use strict";
+var WA = "77078050031";
+var RED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+var HAS_IO = typeof IntersectionObserver === "function";
 
-var WA_PHONE = "77078050031";
-var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* ---------------- КАЗАХСКИЙ СЛОВАРЬ ----------------
+   Разметка русская. Ключа нет здесь → строка остаётся русской. */
+var KZ = {
+"logo.sub":"арматура · БӨА · бөлшектер",
+"nav.cat":"Каталог","nav.sklad":"Қойма","nav.tend":"Тендерлер","nav.obj":"Нысандар",
+"nav.part":"Серіктестерге","nav.cont":"Байланыс","nav.cta":"Спецификация жіберу",
+"a.lang":"Сайт тілі","a.menu":"Мәзір","a.smap":"Сайт бөлімдері",
+"mn.prod":"Өнім","mn.comp":"Компания","mn.pain":"Жеткізу қай жерде үзіледі",
+"mn.sklad":"Қойма және логистика","mn.how":"Қалай жұмыс істейміз","mn.tend":"Тендерлер мен құжаттар",
+"mn.obj":"Нысандар","mn.brand":"Брендтер","mn.part":"Серіктестерге","mn.faq":"Сұрақ-жауап","mn.cont":"Байланыс",
+"c.zap":"Бекіткіш арматура","c.pp":"Полипропилен","c.det":"Құбыр бөлшектері","c.kip":"БӨА",
+"c.fil":"Сүзгілер мен кір ұстағыштар","c.svar":"Дәнекерлеу материалдары","c.fit":"Жез фитингтер",
 
-/* ------------------------------------------------------------
-   i18n. Разметка — на русском. Казахский словарь: общий
-   (ниже) + словарь страницы window.PAGE_KK. Русские строки
-   снимаются с DOM при первом проходе — один источник правды.
-   ------------------------------------------------------------ */
-var COMMON_KK = {
-  /* — шапка / навигация — */
-  "nav.catalog":"Каталог",
-  "nav.objects":"Нысандар",
-  "nav.partners":"Серіктестерге",
-  "nav.delivery":"Жеткізу",
-  "nav.contacts":"Байланыс",
-  "nav.cta":"Спецификация жіберу",
-  /* категории (шапка, футер, карточки) */
-  "cat.zap":"Бекіткіш арматура",
-  "cat.pp":"Полипропилен жүйелері",
-  "cat.det":"Құбыр бөлшектері",
-  "cat.kip":"Бақылау-өлшеу аспаптары",
-  "cat.fil":"Сүзгілер мен кір ұстағыштар",
-  "cat.svar":"Дәнекерлеу материалдары",
-  "cat.fit":"Жез фитингтер",
-  "cnt.zap":"808 позиция","cnt.pp":"364 позиция","cnt.det":"230 позиция",
-  "cnt.kip":"83 позиция","cnt.fil":"84 позиция","cnt.svar":"53 позиция","cnt.fit":"19 позиция",
-  "nav.home":"Басты бет",
-  "chero.mark":"Бағыт",
-  "sub.mark":"Бағыт құрамы",
-  "sub.h2":"Ішкі санаттар",
-  "sub.poz":"поз.",
-  /* — форма КП — */
-  "form.mark":"Өтінім",
-  "form.title":"Спецификация бойынша коммерциялық ұсыныс",
-  "form.badge":"жауап — 15 мин",
-  "form.company":"Компания",
-  "form.person":"Байланысатын адам",
-  "form.opt":"қалауыңызша",
-  "form.phone":"Телефон",
-  "form.email":"E-mail",
-  "form.file":"Спецификация файлын тіркеу",
-  "form.filehint":"PDF · XLSX · DOCX · DWG · JPG · PNG",
-  "form.fileok":"Файл таңдалды:",
-  "form.comment":"Түсініктеме",
-  "form.comment.ph":"Нысан, көлемі, қажетті мерзімдер…",
-  "form.submit":"Коммерциялық ұсыныс алу",
-  "form.orwa":"немесе WhatsApp арқылы жазыңыз",
-  "form.note":"Жұмыс уақытында 15 минут ішінде жауап береміз. Спам жібермейміз — тек іс бойынша.",
-  "form.done.h":"Рақмет! Өтінім қабылданды",
-  "form.done.p":"Хабарлама WhatsApp-та ашылды — жіберуді растаңыз. Менеджер жұмыс уақытында 15 минут ішінде қайта қоңырау шалады.",
-  /* — бренды — */
-  "brands.mark":"Өндірушілер",
-  "brands.h2":"34 өндіруші зауыт",
-  "brands.lead":"Тікелей және ресми дистрибьюторлар арқылы жұмыс істейміз. Түпнұсқа өнім, толық құжат пакетімен.",
-  /* — CTA-панель категорий — */
-  "cta.t":"Спецификацияны жіберіңіз — коммерциялық ұсынысты жол-жолымен қайтарамыз",
-  "cta.s":"Excel, PDF, скан немесе нысандағы фото. Жұмыс уақытында 15 минут ішінде жауап береміз.",
-  "cta.btn":"Коммерциялық ұсыныс алу",
-  /* — «для каких объектов» — */
-  "use.mark":"Қолданылуы",
-  "use.h2":"Қандай нысандарға",
-  /* — контакты / футер — */
-  "cont.mark":"Байланыс",
-  "cont.h2":"Кеңсе және қойма — Астана",
-  "cont.lead":"Қоңырау шалыңыз, WhatsApp-қа жазыңыз немесе спецификацияны поштаға жіберіңіз — жұмыс уақытында 15 минут ішінде жауап береміз.",
-  "cont.callback":"жұмыс уақытында 15 минут ішінде қайта қоңырау шаламыз",
-  "cont.addr":"Астана, М. Дулатов көшесі, 187/1",
-  "cont.hours":"Дс–Жм, 09:00–18:00",
-  "cont.office.b":"Кеңсе",
-  "cont.office.t":"Іріктеу бойынша кеңес, коммерциялық ұсыныс дайындау, шарттар мен құжаттама.",
-  "cont.sklad.b":"Қойма",
-  "cont.sklad.t":"Тапсырыстарды жинақтау, өзі алып кету, көлік компанияларымен жөнелту.",
-  "cont.wa":"WhatsApp-қа жазу",
-  "cont.pin":"2ГИС картасынан ашу",
-  "foot.sub":"Құбыр арматурасы және инженерлік жабдық. Астана, 2017 жылдан бері.",
-  "foot.cats":"Каталог",
-  "foot.co":"Компания",
-  "foot.cont":"Байланыс",
-  "foot.obj":"Нысандар",
-  "foot.part":"Серіктестерге",
-  "foot.dost":"Жеткізу және төлем",
-  "foot.faq":"Сұрақ-жауап",
-  "foot.kp":"Коммерциялық ұсыныс алу",
-  "foot.copy":"© 2026 «Арм-гарант». Барлық құқықтар қорғалған.",
-  "foot.made":"Астана · меншікті қойма · 2017 жылдан бері"
+"h.chip":"Астана · қойма · Қазақстан бойынша жеткізу",
+"h.lead":"Бүкіл тізімдемені бір жеткізушіден жинаймыз: арматура, БӨА, құбыр бөлшектері, полипропилен. Коммерциялық ұсынысты жол-жолымен қайтарамыз — бағасымен, мерзімімен және түпнұсқаны күту ұзақ болса, аналогымен.",
+"h.cta1":"Спецификация жіберу","h.cta2":"Каталогты қарау",
+"h.n1":"Жол-жолымен ұсыныс 15 минутта","h.n2":"Сертификаттар және СТ-1","h.n3":"Серіктестерге төлем мерзімін ұзарту",
+"h.cap":"жинақталған торап · арматура, сорғы, байлам",
+"p.t":"№ 2026-08 тізімдеме · нысан","p.st":"Жабылды","p.ok":"қойма","p.day":"7 күн","p.min":"мин",
+"p.r1":"Болат ысырмалар","p.r2":"Бұрылмалы ысырмалар","p.r3":"Паспортымен манометрлер",
+"p.r4":"Сильфонды компенсаторлар","p.r5":"Фланецтер, бекіткіштер, тығыздағыштар",
+"p.f1":"позиция","p.f2":"зауыт","p.f3":"ұсынысқа жауап",
+
+"n.1":"каталог позициясы — бәрі параметрі мен бағасымен",
+"n.2":"өндіруші зауыт, тікелей жеткізу",
+"n.3":"жеті бағыттағы ішкі санат",
+"n.4":"жыл Қазақстан нарығында, 2017 жылдан бері",
+
+"s.pain.m":"жеткізу қай жерде үзіледі",
+"s.pain.h1":"Нысан баға үшін тұрып қалмайды.","s.pain.h2":"Бір жабылмаған жол үшін тұрады.",
+"s.pain.l":"Біз прайстан емес, «тізімдеме қай жерде үзіледі» деген сұрақтан бастаймыз. Кез келген сатып алу сүрінетін бес орын.",
+"pain.1.h":"Тізімдеме он жеткізушіге бөлінген","pain.1.p":"Әрқайсысы өзінікін өз мерзімінде әкеледі. Нысан ең баяуын күтеді.",
+"pain.2.h":"«Қоймада бар» тапсырыспен болып шықты","pain.2.p":"Шот шыққаннан кейін белгілі болады. Монтаж кестесі қол қойылған, ал позиция жоқ.",
+"pain.3.h":"Аналог шамамен таңдалған","pain.3.p":"Диаметрі мен бағасы сәйкес келді, қысымы, ортасы мен жалғауы сәйкес келмеді. Торап орнына түспеді.",
+"pain.4.h":"Тендер пакетті қабылдамады","pain.4.p":"Сертификат, паспорт немесе СТ-1 жоқ — тауар қоймада тұрса да, өтінім қайтарылады.",
+"pain.5.h":"Ұсыныс бір апта дайындалады","pain.5.p":"Бір тізімдемені санап жатқанда, жеткізу мерзімі тағы бір аптаға жылжиды.",
+
+"s.cat.m":"жеті бағыт","s.cat.h1":"Бүкіл тізімдеме —","s.cat.h2":"бір жеткізушіде.",
+"s.cat.l":"Әр бағытты қоймадан немесе тікелей зауыттан жабамыз. Әрқайсысында параметрлері мен қалдықтары бар жеке каталог бөлімі бар.",
+"cat.zap.h":"Ысырмалар, бұрылмалы ысырмалар, клапандар, крандар",
+"cat.zap.p":"Болат және шойын, шиберлі, редукторлы және электржетекті. LD, STI, ALSO, Temper, Zetkama.",
+"cat.pp.h":"PPR құбырлары мен фитингтері","cat.pp.p":"Сумен жабдықтау мен жылытуға арналған диаметрлердің толық қатары: муфталар, бұрыштамалар, тройниктер, крандар.",
+"cat.det.h":"Фланецтер, бұрылымдар, ауыспалар, бекіткіштер","cat.det.p":"Торап жиналатын бәрі: тройниктер, тығындар, сгондар, бұрандалар, компенсаторлар, болттар мен тығыздағыштар.",
+"cat.fil.h":"Арматура мен сорғыларды қорғау","cat.fil.p":"Фланецті және муфталы торлы сүзгілер, LD кір ұстағыштары, ауыспалы торлар мен қосалқы бөлшектер.",
+"cat.kip.h":"Манометрлер мен термометрлер","cat.kip.p":"Жылу пункттеріне, қазандықтарға және технологиялық желілерге. Паспорттар жинақта.",
+"cat.svar.h":"Нысанға арналған электродтар","cat.svar.p":"Көміртекті және легирленген болаттарды қолмен доғалы дәнекерлеуге. Орамдап және паллеттеп.",
+"cat.fit.h":"Ішкі желілерге арналған жез","cat.fit.p":"Сумен жабдықтау мен жылытуға арналған муфталар, ниппельдер, бұрыштамалар, тройниктер, ауыспалар.",
+"ch.also":"ALSO шар крандары","ch.klap":"Реттеуші клапандар","ch.zatv":"Бұрылмалы ысырмалар",
+"ch.chug":"Шойын ысырмалар","ch.el":"Электржетектер","ch.ppf":"PPR фитингтері","ch.ppt":"PPR құбырлары",
+"ch.fl":"Жазық фланецтер","ch.bolt":"Болттар, гайкалар, шайбалар","ch.sg":"Сгондар","ch.komp":"Компенсаторлар",
+"ch.filz":"Сүзгілер мен қосалқы бөлшектер","ch.gr":"LD кір ұстағыштары","ch.man":"Манометрлер",
+"ch.term":"Термометрлер","ch.elek":"Электродтар","ch.fitr":"Бұрандалы фитингтер",
+"b.open":"Бөлімді ашу","b.kp":"Ұсыныс сұрау",
+
+"s.skl.m":"қойма және логистика","s.skl.h1":"Тапсырыс қайдан шығатыны","s.skl.h2":"және қашан жететіні көрінеді.",
+"s.skl.l":"Сұранысқа ие позициялар Астанада жатыр және төлем күні жөнелтіледі. Қалғанын келісілген мерзімде зауыттан тікелей әкелеміз — Астана бойынша, өңірлерге және нысанға.",
+"cap.skl1":"Астанадағы қойма · сұранысқа ие позициялар бар","cap.skl2":"Жөнелту · көлік компаниясы немесе өзі алып кету",
+"cap.skl3":"Кеңсе және қойма · М. Дулатов көшесі, 187/1",
+
+"s.how.m":"жұмыс тәртібі","s.how.h1":"Тізімдемеден жөнелтуге дейін —","s.how.h2":"бес қадам.",
+"st.1.t":"0 мин","st.1.h":"Тізімдемені жібересіз","st.1.p":"Excel, PDF, скан немесе фото. WhatsApp арқылы да болады.",
+"st.2.t":"15 мин","st.2.h":"Параметрлерді нақтылаймыз","st.2.p":"Қысым, орта, жалғау, көлемі мен мерзімі.",
+"st.3.t":"ұсыныс","st.3.h":"Жол-жолымен санаймыз","st.3.p":"Әр позиция бойынша баға мен мерзім, қажет жерде аналогтар.",
+"st.4.t":"ЭҚА","st.4.h":"Шарт және шот","st.4.p":"Электрондық құжат айналымы, серіктестерге төлем мерзімін ұзарту.",
+"st.5.t":"жөнелту","st.5.h":"Мерзімінде жеткіземіз","st.5.p":"Бір жеткізілімде, толық құжат пакетімен.",
+
+"s.tend.m":"тендерлер мен құжаттар","s.tend.h1":"Пакетті алаң талабына сай жинаймыз,","s.tend.h2":"«әдеттегідей» емес.",
+"s.tend.l":"Мемсатып алу және коммерциялық тендерлермен жұмыс істейміз. Каталогтың бірнеше бөліміне бір шарт, электрондық құжат айналымы, тексерілген серіктестерге төлем мерзімін ұзарту.",
+"t.1.h":"Жол-жолымен ұсыныс","t.1.p":"Тізімдеменің әр жолы бойынша баға мен мерзім, аналогтарымен.",
+"t.2.h":"Мемсатып алу және коммерция","t.2.p":"Алаңдардың талаптары мен өтінім мерзімдерін білеміз.",
+"t.3.h":"Бір шарт","t.3.p":"Каталогтың бірнеше бөлімі — бір жеткізілім және бір пакет.",
+"t.4.h":"Төлем мерзімін ұзарту","t.4.p":"Тексерілген серіктестерге — шартта жазылған талаптармен.",
+"d.1":"Сәйкестік сертификаттары","d.1s":"өнімге","d.2":"Паспорттар мен нұсқаулықтар","d.2s":"әр позицияға",
+"d.3":"ТКЖ және шот-фактуралар","d.3s":"тауар-көлік жүкқұжаттары","d.4":"Шығу тегі сертификаты","d.4s":"СТ-1",
+"d.5":"Жеткізу шарты","d.5s":"тараптардың жауапкершілігімен","d.6":"Тендерге арналған жинақ","d.6s":"алаң талабына сай жинаймыз",
+
+"s.obj.m":"орындалған нысандар","s.obj.h1":"Мұнай саласы, ТКШ, құрылыс,","s.obj.h2":"өнеркәсіп.",
+"o.1.h":"Су арнасын реконструкциялау, Қарағанды","o.2.h":"Мұнай өңдеу зауытына жеткізу",
+"o.3.h":"Тұрғын кешен қазандығын жарақтандыру","o.4.h":"Өнеркәсіптік цехтың құбыр байламы",
+"o.branch":"Сала","o.vol":"Көлемі","o.ed":"дана","o.jkh":"ТКШ","o.oil":"Мұнай саласы","o.prom":"Өнеркәсіп",
+
+"s.br.m":"өндірушілер","s.br.h1":"34 зауыт.","s.br.h2":"Құжаттарымен түпнұсқа.",
+
+"s.part.m":"серіктестер мен дилерлерге","s.part.h1":"Жабдықтауыңыздың","s.part.h2":"бэк-офисі.",
+"s.part.l":"Көтерме бағалар, өтінімдерді өңдеуде басымдық және бүкіл ассортиментке бір ұсыныс. Монтаждау ұйымдарымен, мердігерлермен және сауда үйлерімен жұмыс істейміз.",
+"pt.1.h":"Көтерме бағалар","pt.1.p":"Қоймада барын бірден, қалғанын 1–3 күнде.",
+"pt.2.h":"Өтінімге басымдық","pt.2.p":"Сіздің тізімдемелеріңізді бірінші санаймыз.",
+"pt.3.h":"Бір ұсыныс","pt.3.p":"Көп позиция — бір жеткізілім және бір шарт.","pt.cta":"Серіктес болу",
+
+"s.faq.m":"жиі қойылатын сұрақтар","s.faq.h":"Жабдықтаушылар әдетте не сұрайды",
+"f.1.q":"Тізімдеме бойынша ұсынысты қаншалықты тез қайтарасыздар?",
+"f.1.a":"Жұмыс уақытында қысқа сұраныстар бойынша — 15 минутта. Жүздеген жолдан тұратын толық тізімдеме ұзағырақ саналады: мерзімін бірден айтып, оны ұстаймыз.",
+"f.2.q":"Позиция қоймада болмаса ше?",
+"f.2.a":"Мұны ұсыныста тікелей жазамыз: зауыттан жеткізу мерзімі немесе параметрлері сақталған аналог. «Қоймада бар» дегеннің шот шыққаннан кейін «тапсырыспен» болып кетуі бізде болмайды.",
+"f.3.q":"Аналог таңдайсыздар ма?",
+"f.3.a":"Иә, бірақ суретке емес, параметрге қарап: қысым, орта, температура, корпус материалы, жалғау түрі мен құрылыс ұзындығы.",
+"f.4.q":"Тендерлермен және мемсатып алумен жұмыс істейсіздер ме?",
+"f.4.a":"Істейміз. Пакетті нақты алаңның талабына сай жинаймыз: сертификаттар, паспорттар, ТКЖ, СТ-1, жеткізу шарты.",
+"f.5.q":"Төлем мерзімін ұзарту мүмкін бе?","f.5.a":"Иә, тексерілген серіктестерге — шартта жазылған талаптармен.",
+"f.6.q":"Өңірлерге жеткізесіздер ме?",
+"f.6.a":"Қазақстан бойынша — сіз таңдаған көлік компаниясымен немесе біздің логистикамызбен. Астанада қоймадан өзі алып кетуге болады.",
+
+"s.cont.m":"байланыс","s.cont.h1":"Тізімдемені жіберіңіз —","s.cont.h2":"ұсынысты жол-жолымен қайтарамыз.",
+"s.cont.l":"Excel, PDF, скан немесе нысандағы фото. Жұмыс уақытында 15 минутта жауап береміз.",
+"k.tel":"Телефон","k.mail":"Пошта","k.addr":"Кеңсе және қойма","k.addr.v":"Астана, М. Дулатов көшесі, 187/1",
+"k.time":"Кесте","k.time.v":"Дс–Жм, 09:00–18:00",
+"s.form.m":"өтінім","s.form.h":"Байланыс қалдырыңыз — қоңырау шаламыз",
+"fm.name":"Атыңыз","fm.name.ph":"Сізге қалай жүгінейік","fm.phone":"Телефон",
+"fm.msg":"Не жеткізу керек","fm.msg.ph":"Позициялар, көлемі, мерзімі, нысан. Тізімдемені WhatsApp-қа жіберуге болады",
+"fm.send":"Өтінім жіберу","fm.wa":"WhatsApp",
+"fm.note":"Түймені басу арқылы сіз дербес деректерді өңдеуге келісесіз.",
+
+"f.sub":"нысандарға арналған инженерлік өнім",
+"f.about":"Арматура, құбыр бөлшектері, БӨА және полипропилен — Қазақстандағы нысандарға арналған 1 641 каталог позициясы. 2017 жылдан бері.",
+"f.cont":"Байланыс","f.copy":"© 2026 «Арм-гарант». Барлық құқықтар қорғалған.",
+"f.made":"Астана · меншікті қойма · 2017 жылдан бері",
+"dk.call":"Қоңырау шалу","dk.kp":"Тізімдеме → ұсыныс",
+
+"a.uzel":"Ысырмалары мен сорғысы бар құбыр торабы","a.zap":"Электржетекті болат және шойын ысырмалар",
+"a.pp":"Қоймадағы құбырлар","a.det":"Болат бұрылымдар, ауыспалар мен тройниктер",
+"a.fil":"Сүзгілер, клапандар және ысырмалар","a.kip":"Техникалық манометр","a.svar":"Дәнекерлеу электродтары",
+"a.fit":"Бұрандалы жез фитингтер","a.skl1":"Қойма: құбыр мен арматура сөрелері",
+"a.skl2":"Тапсырысты көлік компаниясына жөнелту","a.skl3":"Астанадағы Арм-гарант қоймасы мен кеңсесі",
+"a.o1":"Су арнасын реконструкциялау, Қарағанды","a.o2":"Мұнай өңдеудің технологиялық қондырғысы",
+"a.o3":"Тұрғын кешеннің қазандығы","a.o4":"Өнеркәсіптік цехтың құбыр байламы",
+"a.part":"Қоймадан серіктеске жөнелту",
+
+"m.title":"Арм-гарант — Астанадағы құбыр арматурасы, БӨА және құбыр бөлшектері",
+"m.desc":"Спецификацияны бір жеткізілімде жабамыз: бекіткіш арматура, БӨА, құбыр бөлшектері, полипропилен. 1 641 каталог позициясы, 34 өндіруші зауыт, Астанадағы қойма, тендерге толық құжат пакеті."
 };
 
-var RU_STORE = {};     /* снятые с DOM русские строки */
-var KK = {};           /* итоговый казахский словарь */
+var UI = {
+ ru:{err:"Укажите имя и телефон, чтобы мы могли перезвонить.",
+     ok:"Заявка сформирована. Если WhatsApp не открылся, позвоните: +7 707 805 00 31",
+     head:"Заявка с сайта Арм-гарант",name:"Имя",phone:"Телефон",topic:"Раздел"},
+ kk:{err:"Қайта қоңырау шала алуымыз үшін атыңыз бен телефоныңызды көрсетіңіз.",
+     ok:"Өтінім қалыптастырылды. WhatsApp ашылмаса, қоңырау шалыңыз: +7 707 805 00 31",
+     head:"Арм-гарант сайтынан өтінім",name:"Аты",phone:"Телефон",topic:"Бөлім"}
+};
+var H1 = {ru:null,
+ kk:'<span class="w"><span>Спецификация</span></span> <span class="w"><span>жабылды.</span></span><br><span class="w"><span class="h-acc">Нысан</span></span> <span class="w"><span class="h-acc">тұрып</span></span> <span class="w"><span class="h-acc">қалмайды.</span></span>'};
 
-function collectDict(){
-  KK = {};
-  var k;
-  for (k in COMMON_KK) KK[k] = COMMON_KK[k];
-  if (window.PAGE_KK) for (k in window.PAGE_KK) KK[k] = window.PAGE_KK[k];
+/* ---------------- ПЕРЕВОД ---------------- */
+var RU = {};
+function snapshot(){
+  document.querySelectorAll("[data-i]").forEach(function(el){ RU[el.dataset.i] = el.innerHTML; });
+  document.querySelectorAll("[data-i-ph]").forEach(function(el){ RU[el.dataset.iPh] = el.placeholder; });
+  document.querySelectorAll("[data-i-alt]").forEach(function(el){ RU[el.dataset.iAlt] = el.alt; });
+  document.querySelectorAll("[data-i-aria]").forEach(function(el){ RU[el.dataset.iAria] = el.getAttribute("aria-label"); });
+  document.querySelectorAll("[data-i-c]").forEach(function(el){ RU[el.dataset.iC] = el.getAttribute("content"); });
+}
+function pick(k, kk){ return (kk && KZ[k] !== undefined) ? KZ[k] : RU[k]; }
+
+var h1 = document.getElementById("h1");
+if (h1) H1.ru = h1.innerHTML;
+
+function riseDelays(){
+  var i = 0;
+  document.querySelectorAll("#h1 .w span").forEach(function(sp){
+    sp.style.animationDelay = (0.075 * i + 0.1) + "s"; i++;
+  });
 }
 
-function applyLang(lang, first){
-  document.querySelectorAll("[data-i18n]").forEach(function(el){
-    var key = el.getAttribute("data-i18n");
-    if (!(key in RU_STORE)) RU_STORE[key] = el.innerHTML;
-    if (lang === "kk" && KK[key] !== undefined) el.innerHTML = KK[key];
-    else if (lang === "ru") el.innerHTML = RU_STORE[key];
+function applyLang(lang){
+  var kk = lang === "kk";
+  document.documentElement.setAttribute("lang", kk ? "kk" : "ru");
+  document.querySelectorAll("[data-i]").forEach(function(el){
+    var v = pick(el.dataset.i, kk); if (v !== undefined) el.innerHTML = v;
   });
-  document.querySelectorAll("[data-i18n-ph]").forEach(function(el){
-    var key = el.getAttribute("data-i18n-ph");
-    if (!(key in RU_STORE)) RU_STORE[key] = el.getAttribute("placeholder") || "";
-    el.setAttribute("placeholder", lang === "kk" && KK[key] !== undefined ? KK[key] : RU_STORE[key]);
+  document.querySelectorAll("[data-i-ph]").forEach(function(el){
+    var v = pick(el.dataset.iPh, kk); if (v !== undefined) el.placeholder = v;
   });
-  document.querySelectorAll("[data-i18n-content]").forEach(function(el){
-    var key = el.getAttribute("data-i18n-content");
-    if (!(key in RU_STORE)) RU_STORE[key] = el.getAttribute("content") || "";
-    el.setAttribute("content", lang === "kk" && KK[key] !== undefined ? KK[key] : RU_STORE[key]);
+  document.querySelectorAll("[data-i-alt]").forEach(function(el){
+    var v = pick(el.dataset.iAlt, kk); if (v !== undefined) el.alt = v;
   });
-  document.querySelectorAll("[data-i18n-aria]").forEach(function(el){
-    var key = el.getAttribute("data-i18n-aria");
-    if (!(key in RU_STORE)) RU_STORE[key] = el.getAttribute("aria-label") || "";
-    el.setAttribute("aria-label", lang === "kk" && KK[key] !== undefined ? KK[key] : RU_STORE[key]);
+  document.querySelectorAll("[data-i-aria]").forEach(function(el){
+    var v = pick(el.dataset.iAria, kk); if (v !== undefined) el.setAttribute("aria-label", v);
   });
-  document.documentElement.setAttribute("lang", lang === "kk" ? "kk" : "ru");
+  document.querySelectorAll("[data-i-c]").forEach(function(el){
+    var v = pick(el.dataset.iC, kk); if (v !== undefined) el.setAttribute("content", v);
+  });
+  if (h1 && H1[lang]) { h1.innerHTML = H1[lang]; riseDelays(); }
+  var og = document.querySelector('meta[property="og:locale"]');
+  if (og) og.setAttribute("content", kk ? "kk_KZ" : "ru_RU");
   document.querySelectorAll(".lang button").forEach(function(b){
     var on = b.getAttribute("data-lang") === lang;
     b.classList.toggle("is-active", on);
     b.setAttribute("aria-pressed", on ? "true" : "false");
   });
   try { localStorage.setItem("ag-lang", lang); } catch(e){}
-  if (!first) document.dispatchEvent(new CustomEvent("ag:lang", {detail:{lang:lang}}));
 }
-
-function currentLang(){
-  try { var s = localStorage.getItem("ag-lang"); if (s === "kk" || s === "ru") return s; } catch(e){}
+function savedLang(){
+  try { var v = localStorage.getItem("ag-lang"); if (v === "kk" || v === "ru") return v; } catch(e){}
   return "ru";
 }
+function T(k){ return UI[document.documentElement.lang === "kk" ? "kk" : "ru"][k] || k; }
 
-/* ------------------------------------------------------------ */
-document.addEventListener("DOMContentLoaded", function(){
-  collectDict();
-  applyLang(currentLang(), true);
+/* ---------------- БЕГУЩАЯ СТРОКА ---------------- */
+var TICK = ["Запорная арматура","Полипропиленовые системы","Детали трубопроводов","КИПиА",
+            "Фильтры и грязевики","Сварочные материалы","Фитинги латунные","Тендерные поставки"];
+var TICK_KZ = ["Бекіткіш арматура","Полипропилен жүйелері","Құбыр бөлшектері","БӨА",
+               "Сүзгілер мен кір ұстағыштар","Дәнекерлеу материалдары","Жез фитингтер","Тендерлік жеткізу"];
+function fillTicker(){
+  var el = document.getElementById("ticker"); if (!el) return;
+  var kk = document.documentElement.lang === "kk";
+  var list = kk ? TICK_KZ : TICK;
+  var html = list.map(function(t){ return "<b>" + t + "</b>"; }).join("");
+  el.innerHTML = html + html;
+}
 
-  document.querySelectorAll(".lang button").forEach(function(b){
-    b.addEventListener("click", function(){ applyLang(b.getAttribute("data-lang")); });
-  });
-
-  /* --- шапка: тень при скролле --- */
-  var hdr = document.querySelector(".hdr");
-  function onScroll(){ if (hdr) hdr.classList.toggle("scrolled", window.scrollY > 8); }
-  window.addEventListener("scroll", onScroll, {passive:true});
-  onScroll();
-
-  /* --- бургер / мобильное меню --- */
-  var burger = document.querySelector(".burger");
-  if (burger){
-    burger.addEventListener("click", function(){
-      var open = document.body.classList.toggle("menu-open");
-      burger.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-    document.querySelectorAll(".mnav a").forEach(function(a){
-      a.addEventListener("click", function(){
-        document.body.classList.remove("menu-open");
-        burger.setAttribute("aria-expanded","false");
-      });
-    });
+/* ---------------- ЛЕНТА БРЕНДОВ ---------------- */
+var BRANDS = [["kflex","K-FLEX"],["siemens","SIEMENS"],["ayvaz","AYVAZ"],["wilo","WILO"],["valtec","VALTEC"],
+  ["ld","LD"],["zetkama","ZETKAMA"],["sti","STI"],["danfoss","Danfoss"],["uponor","UPONOR"],
+  ["hyundai","HYUNDAI"],["benarmo","BENARMO"],["giacomini","Giacomini"],["wester","Wester"],
+  ["fittex","FITTEX"],["also","ALSO"],["temper","TEMPER"],["lmz","ЛМЗ"],["bagoriya","Багория"],
+  ["mzta","МЗТА"],["broen","BROEN"],["genebre","GENEBRE"],["tecofi","Tecofi"],["vexve","Vexve"],
+  ["abra","ABRA"],["adl","ADL"],["naval","NAVAL"],["honeywell","Honeywell"],["grundfos","GRUNDFOS"],
+  ["esbe","ESBE"],["herz","HERZ"],["oventrop","Oventrop"],["watts","WATTS"],["aquasfera","Aquasfera"]];
+(function(){
+  var half = Math.ceil(BRANDS.length / 2);
+  function fill(id, list){
+    var el = document.getElementById(id); if (!el) return;
+    var html = list.map(function(b){
+      return '<span class="brand"><img src="assets/brands/' + b[0] + '.webp" alt="' + b[1] +
+             '" loading="lazy" decoding="async" height="30"></span>';
+    }).join("");
+    el.innerHTML = html + html;
   }
+  fill("m1", BRANDS.slice(0, half));
+  fill("m2", BRANDS.slice(half));
+})();
 
-  /* --- дропдаун «Каталог» на тач-экранах --- */
-  document.querySelectorAll(".ndd > a").forEach(function(a){
-    a.addEventListener("click", function(e){
-      var ndd = a.parentElement;
-      if (window.matchMedia("(hover: none)").matches && !ndd.classList.contains("open")){
-        e.preventDefault();
-        ndd.classList.add("open");
-      }
-    });
-  });
-  document.addEventListener("click", function(e){
-    document.querySelectorAll(".ndd.open").forEach(function(n){
-      if (!n.contains(e.target)) n.classList.remove("open");
-    });
-  });
+/* ---------------- ПОЯВЛЕНИЕ ---------------- */
+if (HAS_IO) {
+  if (!RED) document.documentElement.classList.add("js");
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, {threshold:.12, rootMargin:"0px 0px -6% 0px"});
+  document.querySelectorAll(".rv, .shot, .step, .cat").forEach(function(el){ io.observe(el); });
 
-  /* --- reveal + размерные линии + счётчики --- */
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if (!en.isIntersecting) return;
-      en.target.classList.add("in");
-      if (en.target.hasAttribute("data-count")) runCounter(en.target);
-      io.unobserve(en.target);
-    });
-  }, {threshold:.15, rootMargin:"0px 0px -6% 0px"});
-  document.querySelectorAll(".rv, .mark, [data-count]").forEach(function(el){
-    if (REDUCED){
-      el.classList.add("in");
-      if (el.hasAttribute("data-count")) el.textContent = formatNum(+el.getAttribute("data-count"));
-    } else io.observe(el);
-  });
-
-  function formatNum(n){
-    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  var steps = document.getElementById("steps");
+  if (steps) {
+    var sio = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add("lit"); sio.unobserve(e.target); } });
+    }, {threshold:.25});
+    sio.observe(steps);
   }
-  function runCounter(el){
-    var to = +el.getAttribute("data-count"), dur = 1400, t0 = null;
-    function tick(t){
-      if (!t0) t0 = t;
-      var p = Math.min((t - t0) / dur, 1);
-      var e = 1 - Math.pow(1 - p, 4);
-      el.textContent = formatNum(Math.round(to * e));
-      if (p < 1) requestAnimationFrame(tick);
+  /* страховка: если наблюдатель молчит, содержимое всё равно видно */
+  setTimeout(function(){
+    document.querySelectorAll(".rv, .shot, .step, .cat").forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if (r.top < innerHeight && r.bottom > 0) el.classList.add("in");
+    });
+  }, 2500);
+}
+
+/* ---------------- СЧЁТЧИКИ ---------------- */
+if (HAS_IO) {
+  var cio = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (!e.isIntersecting) return;
+      var el = e.target, target = +el.dataset.count, t0 = performance.now(), dur = 1500;
+      var fmt = function(n){ return n.toLocaleString("ru-RU").replace(/ /g, " "); };
+      cio.unobserve(el);
+      if (RED) { el.textContent = fmt(target); return; }
+      (function tick(t){
+        var k = Math.min(1, (t - t0) / dur), e2 = 1 - Math.pow(1 - k, 3);
+        el.textContent = fmt(Math.round(target * e2));
+        if (k < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  }, {threshold:.5});
+  document.querySelectorAll("[data-count]").forEach(function(el){ cio.observe(el); });
+}
+
+/* ---------------- ШАПКА И НИЖНЯЯ ПАНЕЛЬ ---------------- */
+var hdr = document.getElementById("hdr"), dock = document.getElementById("dock");
+var prev = 0, ticking = false;
+function onScroll(){
+  if (ticking) return; ticking = true;
+  requestAnimationFrame(function(){
+    ticking = false;
+    var y = scrollY || document.documentElement.scrollTop;
+    hdr.classList.toggle("solid", y > 12);
+    if (!document.body.classList.contains("menu-open")) {
+      hdr.classList.toggle("hide", y > 260 && y > prev);
     }
-    requestAnimationFrame(tick);
-  }
+    if (dock) dock.classList.toggle("show", y > innerHeight * .6);
+    prev = y;
+  });
+}
+addEventListener("scroll", onScroll, {passive:true});
+onScroll();
 
-  /* --- hero: запуск анимаций + лёгкий параллакс вырезки --- */
-  var hero = document.querySelector(".hero, .chero");
-  if (hero) requestAnimationFrame(function(){ requestAnimationFrame(function(){ hero.classList.add("loaded"); }); });
-  var hImg = document.querySelector(".hero-img");
-  if (hImg && !REDUCED){
-    var ticking = false;
-    window.addEventListener("scroll", function(){
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function(){
-        hImg.style.transform = "translateY(" + Math.min(window.scrollY * .07, 60) + "px)";
-        ticking = false;
+/* ---------------- МЕНЮ ---------------- */
+var burger = document.getElementById("burger");
+if (burger) {
+  burger.addEventListener("click", function(){
+    var open = document.body.classList.toggle("menu-open");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.style.overflow = open ? "hidden" : "";
+    if (open) hdr.classList.remove("hide");
+  });
+  document.querySelectorAll("#mnav a").forEach(function(a){
+    a.addEventListener("click", function(){
+      document.body.classList.remove("menu-open");
+      document.body.style.overflow = "";
+      burger.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
+/* ---------------- ЭФФЕКТЫ КУРСОРА ---------------- */
+if (!RED && matchMedia("(hover:hover)").matches) {
+  document.querySelectorAll(".cat").forEach(function(card){
+    var raf = 0;
+    card.addEventListener("mousemove", function(ev){
+      if (raf) return;
+      raf = requestAnimationFrame(function(){
+        raf = 0;
+        var r = card.getBoundingClientRect();
+        var px = (ev.clientX - r.left) / r.width - .5, py = (ev.clientY - r.top) / r.height - .5;
+        card.classList.add("tilting");
+        card.style.transform = "perspective(1200px) rotateX(" + (-py * 3.6).toFixed(2) +
+                               "deg) rotateY(" + (px * 4.4).toFixed(2) + "deg) translateY(-4px)";
       });
-    }, {passive:true});
-  }
-
-  /* --- лента брендов: дублируем контент для бесшовности --- */
-  var noMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!noMotion) {
-    document.querySelectorAll(".mq-track").forEach(function(tr){
-      tr.innerHTML += tr.innerHTML;
     });
-  }
-
-  /* --- поле файла: показать имя выбранного --- */
-  document.querySelectorAll(".file-fld input[type=file]").forEach(function(inp){
-    inp.addEventListener("change", function(){
-      var t = inp.closest(".file-fld").querySelector(".ft");
-      if (inp.files && inp.files.length){
-        var ok = KK["form.fileok"] && document.documentElement.lang === "kk" ? KK["form.fileok"] : "Файл выбран:";
-        t.textContent = ok + " " + inp.files[0].name;
-      }
+    card.addEventListener("mouseleave", function(){
+      card.classList.remove("tilting"); card.style.transform = "";
     });
   });
-
-  /* --- форма КП: собираем сообщение и открываем WhatsApp --- */
-  document.querySelectorAll("form.frm").forEach(function(f){
-    f.addEventListener("submit", function(e){
-      e.preventDefault();
-      var kk = document.documentElement.lang === "kk";
-      var v = function(name){ var el = f.querySelector("[name=" + name + "]"); return el ? el.value.trim() : ""; };
-      var lines = [];
-      lines.push(kk ? "Сәлеметсіз бе! Спецификация бойынша коммерциялық ұсыныс қажет."
-                    : "Здравствуйте! Нужно КП по спецификации.");
-      var page = document.body.getAttribute("data-page-name");
-      if (page) lines.push((kk ? "Бағыт: " : "Направление: ") + page);
-      if (v("company")) lines.push((kk ? "Компания: " : "Компания: ") + v("company"));
-      if (v("person"))  lines.push((kk ? "Байланысатын адам: " : "Контактное лицо: ") + v("person"));
-      if (v("phone"))   lines.push((kk ? "Телефон: " : "Телефон: ") + v("phone"));
-      if (v("email"))   lines.push("E-mail: " + v("email"));
-      if (v("comment")) lines.push((kk ? "Түсініктеме: " : "Комментарий: ") + v("comment"));
-      var file = f.querySelector("[type=file]");
-      if (file && file.files && file.files.length)
-        lines.push((kk ? "Спецификация файлы: " : "Файл спецификации: ") + file.files[0].name +
-                   (kk ? " (осы чатқа тіркеймін)" : " (приложу в этот чат)"));
-      var url = "https://wa.me/" + WA_PHONE + "?text=" + encodeURIComponent(lines.join("\n"));
-      window.open(url, "_blank", "noopener");
-      f.classList.add("hide");
-      var done = f.closest(".form-card, .cont-card, section");
-      done = done ? done.querySelector(".form-done") : null;
-      if (done) done.classList.add("show");
-      /* конверсия: отправка формы (gtag навешивается позже) */
+  var hero = document.querySelector(".hero");
+  if (hero) hero.addEventListener("mousemove", function(ev){
+    var r = hero.getBoundingClientRect();
+    hero.style.setProperty("--mx", ((ev.clientX - r.left) / r.width * 100).toFixed(1) + "%");
+    hero.style.setProperty("--my", ((ev.clientY - r.top) / r.height * 100).toFixed(1) + "%");
+  });
+  document.querySelectorAll(".btn").forEach(function(b){
+    b.addEventListener("mousemove", function(ev){
+      var r = b.getBoundingClientRect();
+      var dx = (ev.clientX - r.left - r.width / 2) / r.width, dy = (ev.clientY - r.top - r.height / 2) / r.height;
+      b.style.transform = "translate(" + (dx * 6).toFixed(1) + "px," + (dy * 4).toFixed(1) + "px)";
     });
+    b.addEventListener("mouseleave", function(){ b.style.transform = ""; });
   });
+}
 
-  /* --- чистые делегированные обработчики (для gtag-конверсий) --- */
-  document.addEventListener("click", function(e){
-    var tel = e.target.closest('a[href^="tel:"]');
-    if (tel){ /* конверсия: клик по телефону */ }
-    var wa = e.target.closest('a[href*="wa.me"]');
-    if (wa){ /* конверсия: клик по WhatsApp */ }
+/* ---------------- ЗЕРНО ---------------- */
+if (!RED) {
+  var g = document.createElement("div");
+  g.className = "grain"; g.setAttribute("aria-hidden", "true");
+  document.body.appendChild(g);
+}
+
+/* ---------------- ФОРМА ---------------- */
+var msg = document.getElementById("msgField");
+document.querySelectorAll("[data-topic]").forEach(function(a){
+  a.addEventListener("click", function(){
+    if (msg && !msg.value) msg.value = T("topic") + ": " + a.dataset.topic + ". ";
   });
+});
+var form = document.getElementById("leadForm"), note = document.getElementById("formNote");
+if (form) form.addEventListener("submit", function(e){
+  e.preventDefault();
+  var f = new FormData(form);
+  if (f.get("company")) return;
+  var name = (f.get("name") || "").trim(), phone = (f.get("phone") || "").trim(), m = (f.get("msg") || "").trim();
+  if (!name || !phone) { note.textContent = T("err"); note.style.color = "#C8412F"; return; }
+  var text = encodeURIComponent(T("head")) + "%0A" + encodeURIComponent(T("name")) + ": " +
+             encodeURIComponent(name) + "%0A" + encodeURIComponent(T("phone")) + ": " +
+             encodeURIComponent(phone) + (m ? "%0A" + encodeURIComponent(m) : "");
+  open("https://wa.me/" + WA + "?text=" + text, "_blank");
+  note.textContent = T("ok"); note.style.color = "var(--steel)";
+  form.reset();
+});
 
-  /* --- активный язык мог поменять высоту шапки — на всякий случай --- */
+/* ---------------- СТАРТ ---------------- */
+snapshot();
+applyLang(savedLang());
+fillTicker();
+document.querySelectorAll(".lang button").forEach(function(b){
+  b.addEventListener("click", function(){
+    applyLang(b.getAttribute("data-lang"));
+    fillTicker();
+  });
 });
 })();
