@@ -246,9 +246,12 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 .marq.rev .marq-track{animation-direction:reverse}
 .marq:hover .marq-track{animation-play-state:paused}
 @keyframes marq{to{transform:translateX(-50%)}}
-.brand{font-family:var(--f-display);font-weight:700;font-size:15px;letter-spacing:.06em;padding:14px 20px;background:#fff;border:1px solid var(--line);border-radius:12px;white-space:nowrap;color:var(--ink-2)}
-.brand:nth-child(5n+1){color:var(--steel)}
-.brand:nth-child(7n+3){color:var(--brass)}
+.brand{display:grid;place-items:center;width:150px;height:66px;padding:12px 16px;background:#fff;
+  border:1px solid var(--line);border-radius:12px;flex:none;transition:border-color .3s,box-shadow .3s,transform .3s}
+.brand img{max-width:100%;max-height:34px;width:auto;height:auto;object-fit:contain;
+  filter:grayscale(.2);opacity:.88;transition:filter .4s,opacity .4s}
+.brand:hover{border-color:var(--steel);box-shadow:0 14px 26px -18px rgba(20,29,36,.5);transform:translateY(-2px)}
+.brand:hover img{filter:none;opacity:1}
 
 /* ============ ТЕНДЕРЫ / ОБЪЕКТЫ ============ */
 .rowscroll{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 0 14px;margin-right:calc(var(--gutter) * -1);padding-right:var(--gutter);scrollbar-width:none}
@@ -279,8 +282,9 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 .part-grid h3{font-size:16px;font-weight:700;color:var(--brass-2);margin-bottom:6px}
 .part-grid p{font-size:14px;color:rgba(255,255,255,.75)}
 .part-shot{margin-top:14px}
-.part-shot .slot{min-height:200px}
-@media(min-width:820px){.part-shot .slot{min-height:260px}}
+.part-shot .shot{min-height:190px;border:1px solid rgba(255,255,255,.14)}
+.part-shot .shot::after{box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+@media(min-width:820px){.part-shot .shot{min-height:250px}}
 
 /* ============ ПРОЦЕСС ============ */
 .steps{position:relative;padding-left:34px}
@@ -349,47 +353,37 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
   background-size:140px 140px;
 }
 
-/* ============ МЕСТО ПОД ФОТО ============ */
-.slot{
-  position:relative;overflow:hidden;border-radius:var(--radius);isolation:isolate;
-  background:linear-gradient(150deg,#E4EAE6,#F3F6F4 55%,#DFE7E9);
-  border:1px dashed #B9C6BF;display:grid;place-items:center;min-height:170px;
+/* ============ ФОТОГРАФИИ ============ */
+.shot{position:relative;overflow:hidden;border-radius:var(--radius);background:var(--paper-2);isolation:isolate;margin:0}
+.shot img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.05);transition:transform 1.3s cubic-bezier(.2,.8,.2,1)}
+.shot:hover img{transform:scale(1.12)}
+.shot::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(20,29,36,.1)}
+.shot figcaption{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;padding:30px 14px 11px;
+  background:linear-gradient(to top,rgba(16,24,30,.86),rgba(16,24,30,.35) 55%,transparent);
+  color:#fff;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;line-height:1.4;
 }
-.slot::before{
-  content:"";position:absolute;inset:0;opacity:.5;
-  background-image:linear-gradient(to right,rgba(44,93,120,.09) 1px,transparent 1px),linear-gradient(to bottom,rgba(44,93,120,.09) 1px,transparent 1px);
-  background-size:22px 22px;
-}
-.slot::after{
-  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
-  background:linear-gradient(112deg,transparent 34%,rgba(255,255,255,.85) 50%,transparent 66%);
-  transform:translateX(-130%);animation:sheen 4.2s cubic-bezier(.5,0,.5,1) infinite;
-}
-@keyframes sheen{0%{transform:translateX(-130%)}58%,100%{transform:translateX(130%)}}
-.slot-in{position:relative;z-index:1;display:grid;justify-items:center;gap:7px;padding:22px 18px;text-align:center}
-.slot .ic{width:30px;height:30px;color:var(--steel);opacity:.55}
-.slot .lab{font-family:var(--f-mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--steel);opacity:.75}
-.slot .what{font-size:13px;font-weight:600;color:var(--ink-2);line-height:1.35}
-.slot .no{position:absolute;top:10px;left:12px;z-index:1;font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;color:var(--steel);opacity:.55}
-.slot.dark{background:linear-gradient(150deg,#20303B,#16222B);border-color:rgba(255,255,255,.16)}
-.slot.dark::before{background-image:linear-gradient(to right,rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.06) 1px,transparent 1px)}
-.slot.dark::after{background:linear-gradient(112deg,transparent 34%,rgba(255,255,255,.16) 50%,transparent 66%)}
-.slot.dark .ic,.slot.dark .lab,.slot.dark .no{color:var(--brass-2)}
-.slot.dark .what{color:rgba(255,255,255,.78)}
+.js .shot{clip-path:inset(0 0 100% 0);transition:clip-path 1.1s cubic-bezier(.2,.8,.2,1)}
+.js .shot.in{clip-path:inset(0 0 0 0)}
 
-/* появление фото-слота шторкой — только когда скрипт жив */
-.js .slot{clip-path:inset(0 0 100% 0);transition:clip-path 1s cubic-bezier(.2,.8,.2,1)}
-.js .slot.in{clip-path:inset(0 0 0 0)}
-
-/* параллакс внутри слота */
-.slot .par{position:absolute;inset:-8% 0;will-change:transform}
+/* вырезка товара на постаменте */
+.prod{position:relative;margin:0;border-radius:var(--radius);overflow:hidden;display:grid;place-items:center;
+  padding:16px;background:radial-gradient(120% 88% at 50% 14%,#FFFFFF,#E7EDEA 78%);border:1px solid var(--line)}
+.prod::before{content:"";position:absolute;left:16%;right:16%;bottom:11%;height:16px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(20,29,36,.24),transparent);filter:blur(3px)}
+.prod img{position:relative;width:100%;height:100%;object-fit:contain;
+  transition:transform .9s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 12px 18px rgba(20,29,36,.16))}
+.card:hover .prod img{transform:scale(1.07) rotate(-1.5deg)}
+.js .prod{clip-path:inset(0 0 100% 0);transition:clip-path 1.1s cubic-bezier(.2,.8,.2,1)}
+.js .prod.in{clip-path:inset(0 0 0 0)}
 
 /* ============ ЛЕНТА ФОТО ============ */
 .strip{overflow:hidden;margin:22px calc(var(--gutter) * -1) 0 calc((var(--rail-x) + 26px) * -1);padding:2px 0;
   -webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent)}
 .strip-track{display:flex;gap:12px;width:max-content;animation:strip 52s linear infinite}
 .strip:hover .strip-track{animation-play-state:paused}
-.strip .slot{flex:none;width:min(70vw,340px);aspect-ratio:4/3;min-height:0;clip-path:none}
+.strip .shot{flex:none;width:min(70vw,340px);aspect-ratio:4/3}
+.js .strip .shot{clip-path:none}
 @keyframes strip{to{transform:translateX(-50%)}}
 
 /* ============ КАРТОЧКА: 3D-наклон и фото-слот ============ */
@@ -398,10 +392,11 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 .card:hover{box-shadow:0 1px 0 rgba(20,29,36,.03),0 40px 70px -40px rgba(20,29,36,.4)}
 .card-grid{display:grid;gap:18px}
 @media(min-width:820px){.card-grid{grid-template-columns:1fr 300px;align-items:start}}
-.card .slot{min-height:190px}
+.card .prod{min-height:170px;aspect-ratio:4/3}
+@media(min-width:820px){.card .prod{aspect-ratio:1/1;min-height:190px}}
 .sklad-grid{display:grid;gap:12px}
-.sklad-grid .slot:first-child{min-height:260px}
-@media(min-width:820px){.sklad-grid{grid-template-columns:1.5fr 1fr 1fr}.sklad-grid .slot{min-height:300px}.sklad-grid .slot:first-child{min-height:300px}}
+.sklad-grid .shot{min-height:230px}
+@media(min-width:820px){.sklad-grid{grid-template-columns:1.5fr 1fr 1fr}.sklad-grid .shot{min-height:320px}}
 .card .sym{transition:transform .7s cubic-bezier(.2,.8,.2,1),color .5s}
 .card:hover .sym{transform:rotate(-8deg) scale(1.08);color:var(--brass)}
 .js .chip{transform:translateY(8px);opacity:0;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .5s,border-color .2s,background .2s}
@@ -439,7 +434,9 @@ body.menu-open .hdr{transform:none!important}
 /* ============ ОБЪЕКТЫ ============ */
 .obj{transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s}
 .obj:hover{transform:translateY(-6px);box-shadow:0 34px 60px -40px rgba(20,29,36,.45)}
-.obj .slot{border-radius:0;border:0;border-bottom:1px dashed #B9C6BF;min-height:0;aspect-ratio:4/3;clip-path:none}
+.obj .shot{border-radius:0;aspect-ratio:4/3}
+.obj .shot::after{box-shadow:none;border-bottom:1px solid var(--line)}
+.js .obj .shot{clip-path:none}
 
 /* ============ КНОПКИ: МАГНИТ И ЗАЛИВКА ============ */
 .btn-ink::before,.lnk:not(.alt)::before{
@@ -456,8 +453,8 @@ body.menu-open .hdr{transform:none!important}
 .dock .d-req::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-120%);animation:sheen 3.6s ease-in-out infinite}
 
 @media(prefers-reduced-motion:reduce){
-  .slot::after,.dock .d-req::after,.strip-track{animation:none!important}
-  .slot{clip-path:none!important}
+  .dock .d-req::after,.strip-track{animation:none!important}
+  .shot,.prod{clip-path:none!important}
   .chip{opacity:1!important;transform:none!important}
   .grain{display:none}
 }
@@ -672,7 +669,7 @@ body.menu-open .hdr{transform:none!important}
       <a class="lnk alt" href="#zayavka" data-topic="Запорная арматура">Запросить КП</a>
       </div>
       </div>
-      <figure class="slot"><span class="no">01</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Задвижки и затворы на складе, крупный план</span></div></figure>
+      <figure class="prod"><img src="assets/shots/p-zadvizhki-stalnye.webp" alt="Задвижка стальная фланцевая" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -703,7 +700,7 @@ body.menu-open .hdr{transform:none!important}
       <a class="lnk alt" href="#zayavka" data-topic="Полипропиленовые системы">Запросить КП</a>
       </div>
       </div>
-      <figure class="slot"><span class="no">02</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Трубы и фитинги PPR на стеллаже</span></div></figure>
+      <figure class="prod"><img src="assets/shots/p-truby-polipropilenovye.webp" alt="Трубы полипропиленовые PPR" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -739,7 +736,7 @@ body.menu-open .hdr{transform:none!important}
       <a class="lnk alt" href="#zayavka" data-topic="Детали трубопроводов">Запросить КП</a>
       </div>
       </div>
-      <figure class="slot"><span class="no">03</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Фланцы и отводы, разложены по типоразмерам</span></div></figure>
+      <figure class="prod"><img src="assets/shots/p-flanczy-stalnye-ploskie.webp" alt="Фланцы стальные плоские" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -771,7 +768,7 @@ body.menu-open .hdr{transform:none!important}
       <a class="lnk alt" href="#zayavka" data-topic="КИПиА">Запросить КП</a>
       </div>
       </div>
-      <figure class="slot"><span class="no">04</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Манометры с паспортами, витрина</span></div></figure>
+      <figure class="prod"><img src="assets/shots/p-manometry.webp" alt="Манометр технический" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -801,7 +798,7 @@ body.menu-open .hdr{transform:none!important}
       <a class="lnk alt" href="#zayavka" data-topic="Сварочные материалы">Запросить КП</a>
       </div>
       </div>
-      <figure class="slot"><span class="no">05</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Пачки электродов на паллете</span></div></figure>
+      <figure class="prod"><img src="assets/shots/p-elektrody.webp" alt="Электроды сварочные" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -831,7 +828,7 @@ body.menu-open .hdr{transform:none!important}
       <a class="lnk alt" href="#zayavka" data-topic="Фитинги">Запросить КП</a>
       </div>
       </div>
-      <figure class="slot"><span class="no">06</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Латунные фитинги россыпью</span></div></figure>
+      <figure class="prod"><img src="assets/shots/p-fitingi-latunnye-rezbovye.webp" alt="Фитинги латунные резьбовые" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -862,7 +859,7 @@ body.menu-open .hdr{transform:none!important}
       <a class="lnk alt" href="#zayavka" data-topic="Фильтры">Запросить КП</a>
       </div>
       </div>
-      <figure class="slot"><span class="no">07</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Фильтр сетчатый и грязевик LD рядом</span></div></figure>
+      <figure class="prod"><img src="assets/shots/p-gryazeviki-ld.webp" alt="Фильтр сетчатый фланцевый LD" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -891,9 +888,9 @@ body.menu-open .hdr{transform:none!important}
     <div class="eyebrow rv">Собственный склад · Астана</div>
     <h2 class="rv d1">Видно, откуда едет ваш заказ</h2>
     <div class="sklad-grid">
-      <figure class="slot"><span class="no">08</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Склад в Астане, общий план: стеллажи и проходы</span></div></figure>
-      <figure class="slot"><span class="no">09</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Ряд с задвижками и затворами</span></div></figure>
-      <figure class="slot"><span class="no">10</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Зона отгрузки: машина под погрузкой</span></div></figure>
+      <figure class="shot"><img src="assets/shots/obvyazka.webp" alt="Склад и офис Арм-гарант в Астане" width="1024" height="683"><figcaption>Склад и офис · Астана</figcaption></figure>
+      <figure class="shot"><img src="assets/shots/opt.webp" alt="Стеллажи склада с трубопроводной арматурой" loading="lazy" decoding="async" width="760" height="292"><figcaption>Позиции в наличии на складе</figcaption></figure>
+      <figure class="shot"><img src="assets/shots/fura.webp" alt="Отгрузка заказа транспортной компании" loading="lazy" decoding="async" width="760" height="434"><figcaption>Отгрузка со склада</figcaption></figure>
     </div>
   </div>
 </section>
@@ -958,19 +955,19 @@ body.menu-open .hdr{transform:none!important}
     <h2 class="rv d1">Нефтянка, строительство, ЖКХ, промышленность</h2>
     <div class="rowscroll rv d2">
       <article class="obj">
-                <figure class="slot"><span class="no">11</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Объект: водоканал, смонтированная арматура</span></div></figure>
+                <figure class="shot"><img src="assets/shots/obekt-vodokanal.webp" alt="Реконструкция водоканала, Караганда" loading="lazy" decoding="async" width="700" height="511"></figure>
         <div class="obj-b"><h3>Реконструкция водоканала г. Караганда</h3><dl><div><dt>Отрасль</dt><dd>ЖКХ</dd></div><div><dt>Объём</dt><dd>420 ед.</dd></div><div><dt>Срок</dt><dd>5 мес.</dd></div></dl></div>
       </article>
       <article class="obj">
-                <figure class="slot"><span class="no">12</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Объект: НПЗ, трубопроводная обвязка</span></div></figure>
+                <figure class="shot"><img src="assets/shots/obekt-tc.webp" alt="Нефтеперерабатывающий завод" loading="lazy" decoding="async" width="700" height="511"></figure>
         <div class="obj-b"><h3>Поставка для нефтеперерабатывающего завода</h3><dl><div><dt>Отрасль</dt><dd>Нефтянка</dd></div><div><dt>Объём</dt><dd>260 ед.</dd></div><div><dt>Срок</dt><dd>4 мес.</dd></div></dl></div>
       </article>
       <article class="obj">
-                <figure class="slot"><span class="no">13</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Объект: котельная, узел с приборами</span></div></figure>
+                <figure class="shot"><img src="assets/shots/obekt-npz.webp" alt="Котельная жилого комплекса" loading="lazy" decoding="async" width="700" height="511"></figure>
         <div class="obj-b"><h3>Оснащение котельной ЖК «Премиум»</h3><dl><div><dt>Отрасль</dt><dd>ЖКХ</dd></div><div><dt>Объём</dt><dd>340 ед.</dd></div><div><dt>Срок</dt><dd>3 мес.</dd></div></dl></div>
       </article>
       <article class="obj">
-                <figure class="slot"><span class="no">14</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Объект: цех, магистраль с задвижками</span></div></figure>
+                <figure class="shot"><img src="assets/shots/ceh.webp" alt="Трубопроводная обвязка промышленного цеха" loading="lazy" decoding="async" width="700" height="511"></figure>
         <div class="obj-b"><h3>Трубопроводная обвязка промышленного цеха</h3><dl><div><dt>Отрасль</dt><dd>Пром.</dd></div><div><dt>Объём</dt><dd>180 ед.</dd></div><div><dt>Срок</dt><dd>2 мес.</dd></div></dl></div>
       </article>
     </div>
@@ -990,7 +987,7 @@ body.menu-open .hdr{transform:none!important}
         <div><h3>Постоянный приоритет</h3><p>Ваши заявки идут первыми.</p></div>
         <div><h3>Единое КП</h3><p>Много позиций — одна поставка, один договор.</p></div>
       </div>
-      <div class="part-shot"><figure class="slot"><span class="no">15</span><div class="slot-in"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg><span class="lab">место под фото</span><span class="what">Отгрузка партнёру: паллеты и документы</span></div></figure></div>
+      <div class="part-shot"><figure class="shot"><img src="assets/shots/dilerstvo.webp" alt="Подписание партнёрского договора" loading="lazy" decoding="async" width="1040" height="400"><figcaption>Партнёрские условия и отсрочка</figcaption></figure></div>
       <div class="card-act" style="margin-top:20px"><a class="lnk" style="background:var(--brass)" href="#zayavka" data-topic="Партнёрство">Стать партнёром</a></div>
     </div>
   </div>
@@ -1118,10 +1115,24 @@ body.menu-open .hdr{transform:none!important}
     ticks.appendChild(l);
   }
 
-  /* ---- бренды: бегущая строка ---- */
-  const brands = ['K-FLEX','SIEMENS','AYVAZ','WILO','VALTEC','LD','ZETKAMA','STI','Danfoss','UPONOR','HYUNDAI','BENARMO','Giacomini','Wester','FITTEX','ALSO','TEMPER','ЛМЗ','Багория','МЗТА','BROEN','GENEBRE','Tecofi','Vexve','ABRA','ADL','NAVAL','Honeywell','GRUNDFOS','ESBE','HERZ','Oventrop','WATTS','Aquasfera'];
+  /* ---- бренды: бегущая строка с логотипами ---- */
+  const brands = [
+    ['kflex','K-FLEX'],['siemens','SIEMENS'],['ayvaz','AYVAZ'],['wilo','WILO'],['valtec','VALTEC'],
+    ['ld','LD'],['zetkama','ZETKAMA'],['sti','STI'],['danfoss','Danfoss'],['uponor','UPONOR'],
+    ['hyundai','HYUNDAI'],['benarmo','BENARMO'],['giacomini','Giacomini'],['wester','Wester'],
+    ['fittex','FITTEX'],['also','ALSO'],['temper','TEMPER'],['lmz','ЛМЗ'],
+    ['bagoriya','Багория'],['mzta','МЗТА'],['broen','BROEN'],['genebre','GENEBRE'],['tecofi','Tecofi'],
+    ['vexve','Vexve'],['abra','ABRA'],['adl','ADL'],['naval','NAVAL'],['honeywell','Honeywell'],
+    ['grundfos','GRUNDFOS'],['esbe','ESBE'],['herz','HERZ'],['oventrop','Oventrop'],
+    ['watts','WATTS'],['aquasfera','Aquasfera']
+  ];
   const half = Math.ceil(brands.length/2);
-  const fill = (id, list)=>{ const el=document.getElementById(id); const html=list.map(b=>'<span class="brand">'+b+'</span>').join(''); el.innerHTML = html+html; };
+  const fill = (id, list)=>{
+    const el=document.getElementById(id);
+    const html=list.map(b=>'<span class="brand"><img src="assets/brands/'+b[0]+
+      '.webp" alt="'+b[1]+'" loading="lazy" decoding="async" height="30"></span>').join('');
+    el.innerHTML = html+html;
+  };
   fill('m1', brands.slice(0,half)); fill('m2', brands.slice(half));
 
   /* ---- скролл: труба, манометр, маховик ---- */
@@ -1220,35 +1231,35 @@ body.menu-open .hdr{transform:none!important}
 var RED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 var HAS_IO = typeof IntersectionObserver === "function";
 if (HAS_IO && !RED) document.documentElement.classList.add("js");
-var CAM = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h6.9l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg>';
 
-/* --- лента мест под фото --- */
+/* --- лента фотографий --- */
 var SHOTS = [
-  ["Ф1","Склад: стеллажи с арматурой"],
-  ["Ф2","Отгрузка: погрузка заказа"],
-  ["Ф3","Комплектация по спецификации"],
-  ["Ф4","Приёмка и проверка документов"],
-  ["Ф5","Менеджер за подбором позиций"],
-  ["Ф6","Офис: рабочее место снабжения"]
+  ["sklad.webp","Склад в Астане","Склад в Астане"],
+  ["dostavka-astana.webp","Доставка по Астане","Доставка по Астане"],
+  ["obekt-vodootvedenie.webp","Прокладка трубопровода на объекте","Работы на объекте"],
+  ["dokumenty.webp","Пакет документов на поставку","Документы на поставку"],
+  ["proektnoe.webp","Подбор оборудования по проекту","Подбор по проекту"],
+  ["dostavka-kz.webp","Доставка в регионы Казахстана","Доставка по Казахстану"]
 ];
 var strip = document.getElementById("strip");
 if (strip) {
   var html = SHOTS.map(function(x){
-    return '<figure class="slot"><span class="no">'+x[0]+'</span><div class="slot-in">'+CAM+
-           '<span class="lab">место под фото</span><span class="what">'+x[1]+'</span></div></figure>';
+    return '<figure class="shot"><img src="assets/shots/' + x[0] + '" alt="' + x[1] +
+           '" loading="lazy" decoding="async" width="720" height="540">' +
+           '<figcaption>' + x[2] + '</figcaption></figure>';
   }).join("");
   strip.innerHTML = html + html;
 }
 
-/* --- шторка на местах под фото --- */
+/* --- шторка при появлении фотографий --- */
 if (HAS_IO) {
   var slotIO = new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); slotIO.unobserve(e.target); } });
   },{threshold:.16});
-  document.querySelectorAll(".slot").forEach(function(el){ slotIO.observe(el); });
-  /* страховка: если наблюдатель почему-то не отработал, места под фото всё равно видны */
+  document.querySelectorAll(".shot, .prod").forEach(function(el){ slotIO.observe(el); });
+  /* страховка: если наблюдатель не отработал, фотографии всё равно видны */
   setTimeout(function(){
-    document.querySelectorAll(".slot").forEach(function(el){
+    document.querySelectorAll(".shot, .prod").forEach(function(el){
       var r = el.getBoundingClientRect();
       if (r.top < innerHeight && r.bottom > 0) el.classList.add("in");
     });
@@ -1539,20 +1550,12 @@ var KK = {
 "Комплектуем объект по спецификации. Одна поставка, полный пакет документов, любой регион.": "Нысанды спецификация бойынша жинақтаймыз. Бір жеткізілім, толық құжат пакеті, кез келген өңір.",
 "Семь направлений. По каждому — свой раздел каталога.": "Жеті бағыт. Әрқайсысының жеке каталог бөлімі бар.",
 "Задвижки, затворы, регулирующие клапаны, шаровые краны. LD, STI, ALSO, Temper.": "Ысырмалар, бұрылмалы ысырмалар, реттеуші клапандар, шар крандары. LD, STI, ALSO, Temper.",
-"место под фото": "фотоға арналған орын",
-"Задвижки и затворы на складе, крупный план": "Қоймадағы ысырмалар мен бұрылмалы ысырмалар, ірі план",
 "Трубы и фитинги PPR. Вся линейка диаметров.": "PPR құбырлары мен фитингтері. Диаметрлердің толық қатары.",
-"Трубы и фитинги PPR на стеллаже": "Сөредегі PPR құбырлары мен фитингтері",
 "Фланцы, отводы, переходы, тройники, компенсаторы, крепёж.": "Фланецтер, бұрылымдар, ауыспалар, тройниктер, компенсаторлар, бекіткіштер.",
-"Фланцы и отводы, разложены по типоразмерам": "Фланецтер мен бұрылымдар, өлшемдері бойынша қойылған",
 "Манометры, термометры, термоманометры. Паспорта в комплекте.": "Манометрлер, термометрлер, термоманометрлер. Паспорттар жинақта.",
-"Манометры с паспортами, витрина": "Паспорттарымен манометрлер, витрина",
 "Электроды для углеродистых и легированных сталей. Упаковками и паллетами.": "Көміртекті және легирленген болаттарға арналған электродтар. Орамдап және паллеттеп.",
-"Пачки электродов на паллете": "Паллеттегі электрод бумалары",
 "Латунь: муфты, ниппели, уголки, тройники, переходы.": "Жез: муфталар, ниппельдер, бұрыштамалар, тройниктер, ауыспалар.",
-"Латунные фитинги россыпью": "Жез фитингтер, жалпы план",
 "Сетчатые фильтры, грязевики LD, сменные сетки.": "Торлы сүзгілер, LD кір ұстағыштары, ауыспалы торлар.",
-"Фильтр сетчатый и грязевик LD рядом": "Торлы сүзгі мен LD кір ұстағышы қатар",
 "Найдём оригинал или аналог с сохранением параметров.": "Параметрлерін сақтай отырып түпнұсқаны немесе аналогты табамыз.",
 "Давление, среда, материал, присоединение.": "Қысым, орта, материал, жалғау.",
 "Разберём ведомость, вернём подбор с ценами.": "Тізімдемені талдап, бағасымен іріктеу қайтарамыз.",
@@ -1562,34 +1565,46 @@ var KK = {
 "склад": "қойма",
 "Собственный склад · Астана": "Меншікті қойма · Астана",
 "Видно, откуда едет ваш заказ": "Тапсырысыңыз қайдан шығатыны көрінеді",
-"Склад в Астане, общий план: стеллажи и проходы": "Астанадағы қойма, жалпы план: сөрелер мен өтпелер",
-"Ряд с задвижками и затворами": "Ысырмалар мен бұрылмалы ысырмалар қатары",
-"Зона отгрузки: машина под погрузкой": "Жөнелту аймағы: тиеуге тұрған көлік",
 "Цены и сроки по каждой строке.": "Әр жол бойынша баға мен мерзім.",
 "Сертификаты, ТТН, СТ-1, паспорта, договор.": "Сертификаттар, ТКЖ, СТ-1, паспорттар, шарт.",
 "Знаем требования площадок, работаем по ЭДО.": "Алаң талаптарын білеміз, электрондық құжат айналымымен жұмыс істейміз.",
 "Разные разделы каталога — одна отгрузка.": "Каталогтың әртүрлі бөлімі — бір жөнелтілім.",
-"Объект: водоканал, смонтированная арматура": "Нысан: су арнасы, орнатылған арматура",
-"Объект: НПЗ, трубопроводная обвязка": "Нысан: МӨЗ, құбыр байламы",
-"Объект: котельная, узел с приборами": "Нысан: қазандық, аспаптары бар торап",
-"Объект: цех, магистраль с задвижками": "Нысан: цех, ысырмалары бар магистраль",
 "Оптовые цены, приоритет заявок, одно КП на всё.": "Көтерме бағалар, өтінімге басымдық, бәріне бір ұсыныс.",
 "На складе — сразу, остальное за 1–3 дня.": "Қоймада барын бірден, қалғанын 1–3 күнде.",
 "Ваши заявки идут первыми.": "Сіздің өтінімдеріңіз бірінші.",
 "Много позиций — одна поставка, один договор.": "Көп позиция — бір жеткізілім, бір шарт.",
-"Отгрузка партнёру: паллеты и документы": "Серіктеске жөнелту: паллеттер мен құжаттар",
 "Форма, WhatsApp или почта. Можно файлом.": "Форма, WhatsApp немесе пошта. Файлмен де болады.",
 "Уточняем объём, сроки, условия.": "Көлемін, мерзімін, шарттарын нақтылаймыз.",
 "Цены, сроки, аналоги.": "Бағалар, мерзімдер, аналогтар.",
 "Электронный документооборот.": "Электрондық құжат айналымы.",
 "Транспортной компанией или самовывоз.": "Көлік компаниясымен немесе өзі алып кету.",
 "ПН–ПТ, 09:00–18:00. Без спама, только по делу.": "Дс–Жм, 09:00–18:00. Спамсыз, тек іс бойынша.",
-"Склад: стеллажи с арматурой": "Қойма: арматурасы бар сөрелер",
-"Отгрузка: погрузка заказа": "Жөнелту: тапсырысты тиеу",
-"Комплектация по спецификации": "Спецификация бойынша жинақтау",
-"Приёмка и проверка документов": "Қабылдау және құжаттарды тексеру",
-"Менеджер за подбором позиций": "Менеджер позицияларды іріктеп отыр",
-"Офис: рабочее место снабжения": "Кеңсе: жабдықтау жұмыс орны"
+"Склад и офис · Астана": "Қойма және кеңсе · Астана",
+"Позиции в наличии на складе": "Қоймадағы қолда бар позициялар",
+"Отгрузка со склада": "Қоймадан жөнелту",
+"Партнёрские условия и отсрочка": "Серіктестік шарттары және төлем мерзімін ұзарту",
+"Склад в Астане": "Астанадағы қойма",
+"Доставка по Астане": "Астана бойынша жеткізу",
+"Работы на объекте": "Нысандағы жұмыстар",
+"Документы на поставку": "Жеткізуге арналған құжаттар",
+"Подбор по проекту": "Жоба бойынша іріктеу",
+"Доставка по Казахстану": "Қазақстан бойынша жеткізу",
+"Задвижка стальная фланцевая": "Болат фланецті ысырма",
+"Трубы полипропиленовые PPR": "PPR полипропилен құбырлары",
+"Манометр технический": "Техникалық манометр",
+"Электроды сварочные": "Дәнекерлеу электродтары",
+"Фильтр сетчатый фланцевый LD": "LD фланецті торлы сүзгісі",
+"Склад и офис Арм-гарант в Астане": "Астанадағы Арм-гарант қоймасы мен кеңсесі",
+"Стеллажи склада с трубопроводной арматурой": "Құбыр арматурасы бар қойма сөрелері",
+"Отгрузка заказа транспортной компании": "Тапсырысты көлік компаниясына жөнелту",
+"Реконструкция водоканала, Караганда": "Су арнасын реконструкциялау, Қарағанды",
+"Нефтеперерабатывающий завод": "Мұнай өңдеу зауыты",
+"Котельная жилого комплекса": "Тұрғын кешеннің қазандығы",
+"Подписание партнёрского договора": "Серіктестік шартқа қол қою",
+"Прокладка трубопровода на объекте": "Нысанда құбыр тарту",
+"Пакет документов на поставку": "Жеткізуге арналған құжаттар пакеті",
+"Подбор оборудования по проекту": "Жоба бойынша жабдық іріктеу",
+"Доставка в регионы Казахстана": "Қазақстан өңірлеріне жеткізу"
 };
 var UI = { ru: {"wa.head": "Заявка с сайта Арм-гарант", "wa.name": "Имя", "wa.phone": "Телефон", "err": "Укажите имя и телефон, чтобы мы могли перезвонить.", "ok": "Заявка сформирована. Если WhatsApp не открылся, позвоните: +7 707 805 00 31", "topic": "Раздел"}, kk: {"wa.head": "Арм-гарант сайтынан өтінім", "wa.name": "Аты", "wa.phone": "Телефон", "err": "Қайта қоңырау шала алуымыз үшін атыңыз бен телефоныңызды көрсетіңіз.", "ok": "Өтінім қалыптастырылды. WhatsApp ашылмаса, қоңырау шалыңыз: +7 707 805 00 31", "topic": "Бөлім"} };
 var MT = { ru: {"title": "Арм-гарант. Трубопроводная арматура, КИПиА, детали трубопроводов. Астана, доставка по Казахстану", "desc": "Комплексные поставки инженерного оборудования для промышленных и строительных объектов: 1 641 позиция каталога, 7 направлений, 34 завода-изготовителя. Полный пакет документов для тендеров, доставка по всему Казахстану. С 2017 года."}, kk: {"title": "Арм-гарант. Құбыр арматурасы, БӨА, құбыр бөлшектері. Астана, Қазақстан бойынша жеткізу", "desc": "Өнеркәсіптік және құрылыс нысандарына арналған инженерлік жабдықты кешенді жеткізу: 1 641 каталог позициясы, 7 бағыт, 34 өндіруші зауыт. Тендерге толық құжат пакеті, Қазақстан бойынша жеткізу. 2017 жылдан бері."} };
@@ -1617,7 +1632,7 @@ var nodes = [];
 
 /* атрибуты */
 var ATTRS = [];
-["placeholder","aria-label","title"].forEach(function(a){
+["placeholder","aria-label","title","alt"].forEach(function(a){
   Array.prototype.forEach.call(document.querySelectorAll("["+a+"]"), function(el){
     var v = el.getAttribute(a);
     if (v && KK[v.trim()] !== undefined) ATTRS.push([el, a, v]);
