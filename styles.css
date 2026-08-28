@@ -175,7 +175,7 @@ body.menu-open .mnav{opacity:1;visibility:visible;transform:none}
   letter-spacing:.13em;text-transform:uppercase;color:var(--ink-2);box-shadow:var(--shadow)}
 .chip i{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 1.8s infinite}
 @keyframes pulse{50%{transform:scale(1.7);opacity:.35}}
-.hero h1{margin:20px 0 18px}
+.hero h1{margin:20px 0 18px;font-size:clamp(30px,5.2vw,54px)}
 .hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em}
 .hero h1 .w span{display:inline-block;transform:translateY(110%);animation:rise .95s cubic-bezier(.2,.8,.2,1) forwards}
 @keyframes rise{to{transform:none}}
@@ -212,8 +212,8 @@ body.menu-open .mnav{opacity:1;visibility:visible;transform:none}
 .panel-foot span{font-family:var(--f-m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--ink-3);display:block;margin-top:5px}
 .hero-shot{position:relative;margin-top:14px;border-radius:var(--r);overflow:hidden;
-  border:1px solid var(--line);background:var(--w);aspect-ratio:16/9}
-.hero-shot img{width:100%;height:100%;object-fit:contain;padding:8px;
+  border:1px solid var(--line);background:var(--w);aspect-ratio:16/7}
+.hero-shot img{width:100%;height:100%;object-fit:cover;padding:0;
   transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
 .hero-shot:hover img{transform:scale(1.05)}
 .hero-shot .cap{position:absolute;left:12px;bottom:10px;font-family:var(--f-m);font-size:9.5px;
