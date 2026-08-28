@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;700;800&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260828-1">
+<link rel="stylesheet" href="styles.css?v=20260828-2">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"LocalBusiness","name":"Арм-гарант","alternateName":"ARM-GARANT",
 "description":"Комплексные поставки трубопроводной арматуры и инженерного оборудования для промышленных, строительных и ЖКХ-объектов.",
@@ -35,6 +35,18 @@
 </script>
 </head>
 <body>
+
+<!-- ЗАНАВЕС ЗАГРУЗКИ -->
+<div class="load" aria-hidden="true">
+  <div class="load-in">
+    <b>АРМ<i>·</i>ГАРАНТ</b>
+    <div class="load-bar"><i></i></div>
+    <span>АСТАНА · 2017</span>
+  </div>
+</div>
+
+<!-- ПОЛОСА ПРОГРЕССА ЧТЕНИЯ -->
+<div class="prog" id="prog" aria-hidden="true"></div>
 
 <!-- ШАПКА -->
 <header class="hdr" id="hdr">
@@ -90,6 +102,26 @@
 
 <!-- ПЕРВЫЙ ЭКРАН -->
 <section class="sec hero" id="top">
+  <svg class="hero-net" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <g>
+      <path class="p" d="M-40 104H196a36 36 0 0 1 36 36v148a36 36 0 0 0 36 36h300"/>
+      <path class="p" d="M1240 196H1012a36 36 0 0 0-36 36v196a36 36 0 0 1-36 36H660"/>
+      <path class="p" d="M-40 600H150a32 32 0 0 0 32-32V430"/>
+      <path class="p" d="M1240 648H906a32 32 0 0 1-32-32V520"/>
+      <path class="f" d="M-40 104H196a36 36 0 0 1 36 36v148a36 36 0 0 0 36 36h300"/>
+      <path class="f f2" d="M1240 196H1012a36 36 0 0 0-36 36v196a36 36 0 0 1-36 36H660"/>
+      <path class="f f3" d="M-40 600H150a32 32 0 0 0 32-32V430"/>
+      <path class="f f4" d="M1240 648H906a32 32 0 0 1-32-32V520"/>
+      <circle class="v" cx="196" cy="104" r="9"/>
+      <circle class="v" cx="268" cy="324" r="9"/>
+      <circle class="v" cx="1012" cy="196" r="9"/>
+      <circle class="v" cx="940" cy="464" r="9"/>
+      <circle class="v" cx="182" cy="430" r="7"/>
+      <circle class="vd" cx="560" cy="324" r="4"/>
+      <circle class="vd" cx="660" cy="464" r="4"/>
+      <circle class="vd" cx="874" cy="520" r="4"/>
+    </g>
+  </svg>
   <div class="wrap hero-grid">
     <div>
       <span class="chip"><i></i><span data-i="h.chip">Астана · склад · поставки по Казахстану</span></span>
@@ -109,6 +141,7 @@
 
     <div class="rv d1">
       <div class="panel">
+        <span class="panel-scan" aria-hidden="true"></span>
         <div class="panel-top">
           <span class="t" data-i="p.t">Ведомость № 2026-08 · объект</span>
           <span class="st"><i></i><span data-i="p.st">Закрыта</span></span>
@@ -121,9 +154,9 @@
           <div class="prow"><span class="n">05</span><span class="nm"><span data-i="p.r5">Фланцы, крепёж, прокладки</span><small>ГОСТ 33259</small></span><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span data-i="p.ok">склад</span></span></div>
         </div>
         <div class="panel-foot">
-          <div><b>1 641</b><span data-i="p.f1">позиция</span></div>
-          <div><b>34</b><span data-i="p.f2">завода</span></div>
-          <div><b>15 <span data-i="p.min">мин</span></b><span data-i="p.f3">ответ на КП</span></div>
+          <div><b><span data-count="1641">0</span></b><span data-i="p.f1">позиция</span></div>
+          <div><b><span data-count="34">0</span></b><span data-i="p.f2">завода</span></div>
+          <div><b><span data-count="15">0</span> <span data-i="p.min">мин</span></b><span data-i="p.f3">ответ на КП</span></div>
         </div>
       </div>
       <figure class="hero-shot">
@@ -543,6 +576,11 @@
   <a class="d3" href="#zayavka" data-i="dk.kp">Ведомость → КП</a>
 </div>
 
-<script src="script.js?v=20260828-1"></script>
+<!-- НАВЕРХ -->
+<button class="totop" id="totop" data-i-aria="a.top" aria-label="Наверх">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script src="script.js?v=20260828-2"></script>
 </body>
 </html>
