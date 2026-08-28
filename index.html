@@ -63,19 +63,18 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* ============ ШАПКА ============ */
 .hdr{
-  position:fixed;inset:0 0 auto 0;z-index:50;height:64px;
+  position:relative;z-index:50;height:64px;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 var(--gutter) 0 calc(var(--rail-x) + 22px);
   background:linear-gradient(to bottom,rgba(245,247,245,.96),rgba(245,247,245,.7));
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(205,213,208,.6);
+  border-bottom:1px solid rgba(205,213,208,.6);background:#fff;
 }
 .logo{display:flex;flex-direction:column;line-height:1}
 .logo b{font-family:var(--f-display);font-weight:800;font-size:15px;letter-spacing:.02em}
 .logo b i{font-style:normal;color:var(--brass)}
 .logo span{font-family:var(--f-mono);font-size:9.5px;color:var(--ink-2);letter-spacing:.12em;margin-top:5px;text-transform:uppercase}
 .hdr-r{display:flex;align-items:center;gap:10px}
-.gauge{width:52px;height:52px;position:relative}
+.gauge{width:50px;height:50px;position:relative;background:#fff;border-radius:13px;padding:2px}
 .gauge svg{width:100%;height:100%}
 
 .gauge .val{font-family:var(--f-mono);font-size:9px;fill:var(--ink);font-weight:700}
@@ -86,23 +85,18 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .menu-open .burger span{background:transparent}
 .menu-open .burger span::before{top:0;transform:rotate(45deg)}
 .menu-open .burger span::after{top:0;transform:rotate(-45deg)}
-.lang{display:flex;padding:3px;border-radius:10px;background:var(--paper-2);border:1px solid var(--line);flex:none}
-.lang button{font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.06em;padding:7px 9px;border-radius:7px;color:var(--ink-2);transition:background .2s,color .2s;line-height:1}
-.lang button.is-active{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(20,29,36,.14)}
-.lang button:hover:not(.is-active){color:var(--ink)}
-@media(max-width:479px){.gauge{display:none}}
-@media(max-width:400px){.logo span{display:none}.hdr{padding-left:calc(var(--rail-x) + 16px)}}
 .hdr-phone{display:none;font-family:var(--f-mono);font-size:14px;font-weight:700;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#fff}
 @media(min-width:900px){.hdr-phone{display:block}}
 
 /* ============ МЕНЮ (схема-оглавление) ============ */
 .menu{
-  position:fixed;inset:0;z-index:45;background:var(--paper);
-  padding:84px var(--gutter) 120px calc(var(--rail-x) + 22px);
+  position:fixed;inset:0;z-index:70;background:var(--paper);
+  padding:72px var(--gutter) 120px calc(var(--rail-x) + 22px);
   transform:translateY(-8px);opacity:0;visibility:hidden;transition:.35s;
   overflow:auto;
 }
 .menu-open .menu{transform:none;opacity:1;visibility:visible}
+.menu-close{position:absolute;top:12px;right:var(--gutter);width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:22px;line-height:1}
 .menu h4{font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);margin:18px 0 8px}
 .menu a{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-weight:600;font-size:16px}
 .menu a .tag{font-family:var(--f-mono);font-size:10px;color:var(--steel);min-width:52px;letter-spacing:.06em}
@@ -134,7 +128,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* ============ СЕКЦИИ ============ */
 main{position:relative;z-index:1}
-.sec{position:relative;padding:72px var(--gutter) 40px calc(var(--rail-x) + 26px);scroll-margin-top:60px}
+.sec{position:relative;padding:72px var(--gutter) 40px calc(var(--rail-x) + 26px);scroll-margin-top:12px}
 .wrap{max-width:1040px}
 .eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-bottom:12px;display:flex;align-items:center;gap:10px}
 .eyebrow::before{content:"";width:22px;height:1px;background:var(--steel)}
@@ -144,22 +138,27 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 @media(min-width:900px){.lead{font-size:18px}}
 
 /* reveal */
-.rv{opacity:0;transform:translateY(26px);filter:blur(7px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.8,.2,1),filter .8s ease}
-.rv.in{opacity:1;transform:none;filter:none}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
 .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}.rv.d4{transition-delay:.4s}
 
 /* ============ HERO ============ */
-.hero{padding-top:96px;min-height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.hero{padding-top:40px;min-height:calc(100svh - 64px);display:flex;flex-direction:column;justify-content:center;overflow:hidden}
 .hero h1{font-size:clamp(30px,8.4vw,74px);font-weight:800;line-height:1.02;letter-spacing:-.02em}
 .hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top}
 .hero h1 .w span{display:inline-block;transform:translateY(110%);animation:rise .9s cubic-bezier(.2,.8,.2,1) forwards}
 .hero h1 .brass{color:var(--brass)}
 @keyframes rise{to{transform:none}}
 .hero .lead{margin-top:20px}
-.hero .wrap{position:relative;z-index:2}
-.hero-valve{position:absolute;right:-34%;top:64%;width:min(74vw,540px);transform:translateY(-50%);opacity:.4;pointer-events:none;z-index:1}
-@media(min-width:900px){.hero-valve{right:4%;width:440px;top:55%;opacity:.95}}
-.hero-valve .wheel{transform-origin:150px 62px}
+.hero-grid{display:grid;gap:26px;align-items:center}
+@media(min-width:900px){.hero-grid{grid-template-columns:1.05fr .95fr;gap:40px}}
+.hero-photo{position:relative;border-radius:26px;overflow:hidden;aspect-ratio:4/3;background:#fff;border:1px solid var(--line);box-shadow:0 30px 60px -40px rgba(20,29,36,.45)}
+.hero-photo img{width:100%;height:100%;object-fit:cover;transform:scale(1.05);transition:transform .2s linear}
+.hero-photo .cap{position:absolute;left:14px;bottom:12px;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(20,29,36,.6);padding:6px 10px;border-radius:8px;backdrop-filter:blur(6px)}
+.wheel-badge{position:absolute;right:-22px;top:-22px;width:118px;height:118px;filter:drop-shadow(0 12px 20px rgba(20,29,36,.25))}
+.wheel-badge .wheel{transform-origin:50px 50px}
+.hero-thumbs{display:flex;gap:8px;margin-top:12px}
+.hero-thumbs img{width:56px;height:56px;border-radius:12px;object-fit:cover;border:2px solid #fff;box-shadow:0 4px 12px rgba(20,29,36,.15)}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;position:relative;z-index:2}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 22px;border-radius:14px;font-weight:700;font-size:15px;transition:.25s;position:relative;overflow:hidden}
 .btn-ink{background:var(--ink);color:#fff}
@@ -168,11 +167,10 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 .btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
 .btn-wa{background:#25D366;color:#fff}
 .btn svg{width:18px;height:18px}
-.hero-stats{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:18px;margin-top:34px;position:relative;z-index:2}
-@media(min-width:700px){.hero-stats{gap:34px;margin-top:40px}}
-.stat b{font-family:var(--f-display);font-size:clamp(24px,5.6vw,48px);font-weight:700;letter-spacing:-.02em;display:block;line-height:1}
+.hero-stats{display:flex;gap:26px;margin-top:40px;position:relative;z-index:2;flex-wrap:wrap}
+.stat b{font-family:var(--f-display);font-size:clamp(28px,7vw,48px);font-weight:700;letter-spacing:-.02em;display:block;line-height:1}
 .stat b em{font-style:normal;color:var(--brass)}
-.stat > span{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);display:block;margin-top:6px}
+.stat > span{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);display:block;margin-top:6px}
 .hero-meta{margin-top:34px;display:flex;gap:16px;flex-wrap:wrap;font-family:var(--f-mono);font-size:11px;color:var(--ink-2);position:relative;z-index:2}
 .hero-meta span::before{content:"▪ ";color:var(--flow)}
 .scroll-hint{position:absolute;bottom:24px;left:calc(var(--rail-x) + 26px);font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:10px}
@@ -180,9 +178,10 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 @keyframes pulse{50%{transform:scale(1.8);opacity:.4}}
 
 /* ============ КАТАЛОГ / УЗЛЫ ============ */
-.cat{position:relative;padding:34px var(--gutter) 34px calc(var(--rail-x) + 26px);scroll-margin-top:60px}
+.cat{position:relative;padding:34px var(--gutter) 34px calc(var(--rail-x) + 26px);scroll-margin-top:12px}
 .cat .node{top:44px}
 .sec:not(.hero) .node{top:34px}
+.hero .node{top:14px}
 .card{
   background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;
   position:relative;overflow:hidden;
@@ -197,9 +196,11 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 .card p{color:var(--ink-2);font-size:15px}
 .sym{width:74px;height:74px;flex:none;color:var(--steel)}
 .sym svg{width:100%;height:100%}
+.pic{width:118px;height:118px;flex:none;border-radius:16px;overflow:hidden;background:var(--paper-2);border:1px solid var(--line)}
+.pic img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.card:hover .pic img{transform:scale(1.06)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-.chip{font-size:12px;font-weight:600;padding:7px 10px;border-radius:10px;background:var(--paper-2);border:1px solid transparent}
-@media(min-width:700px){.chip{font-size:13px;padding:8px 12px}}
+.chip{font-size:13px;font-weight:600;padding:8px 12px;border-radius:10px;background:var(--paper-2);border:1px solid transparent;transition:.2s}
 .chip:hover{border-color:var(--steel);background:#fff}
 .chip small{font-family:var(--f-mono);color:var(--ink-2);margin-left:6px;font-weight:400}
 .card-act{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
@@ -209,6 +210,7 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
   .cat{padding-top:26px;padding-bottom:26px}
   .card{padding:30px 32px}
   .sym{width:96px;height:96px}
+  .pic{width:210px;height:170px}
 }
 
 /* ============ ПОДБОР ============ */
@@ -216,6 +218,7 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 @media(min-width:700px){.grid2{grid-template-columns:1fr 1fr}}
 @media(min-width:1000px){.grid4{grid-template-columns:repeat(4,1fr)}}
 .tile{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px}
+.tile .ico{width:56px;height:56px;object-fit:contain;margin-bottom:10px}
 .tile .k{font-family:var(--f-mono);font-size:10px;color:var(--steel);letter-spacing:.14em;text-transform:uppercase}
 .tile h3{font-size:17px;font-weight:700;margin:10px 0 6px}
 .tile p{font-size:14px;color:var(--ink-2)}
@@ -235,7 +238,10 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 @media(min-width:900px){.spec{display:grid;grid-template-columns:1fr 1fr}.spec-row:nth-child(2){border-top:0}}
 .since{margin-top:22px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 @media(min-width:800px){.since{grid-template-columns:repeat(4,1fr)}}
-.since div{padding:18px;border-radius:14px;background:var(--ink);color:#fff}
+.since{position:relative;border-radius:var(--radius);overflow:hidden;padding:16px;background:var(--ink)}
+.since::before{content:"";position:absolute;inset:0;background:url(https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/stats-warehouse.jpg) center/cover;opacity:.35}
+.since::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(20,29,36,.9),rgba(20,29,36,.5))}
+.since div{position:relative;z-index:1;padding:18px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;backdrop-filter:blur(4px)}
 .since b{font-family:var(--f-display);font-size:clamp(24px,6vw,36px);display:block;line-height:1}
 .since b em{font-style:normal;color:var(--brass-2)}
 .since > div > span{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.75;display:block;margin-top:6px}
@@ -246,12 +252,8 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 .marq.rev .marq-track{animation-direction:reverse}
 .marq:hover .marq-track{animation-play-state:paused}
 @keyframes marq{to{transform:translateX(-50%)}}
-.brand{display:grid;place-items:center;width:150px;height:66px;padding:12px 16px;background:#fff;
-  border:1px solid var(--line);border-radius:12px;flex:none;transition:border-color .3s,box-shadow .3s,transform .3s}
-.brand img{max-width:100%;max-height:34px;width:auto;height:auto;object-fit:contain;
-  filter:grayscale(.2);opacity:.88;transition:filter .4s,opacity .4s}
-.brand:hover{border-color:var(--steel);box-shadow:0 14px 26px -18px rgba(20,29,36,.5);transform:translateY(-2px)}
-.brand:hover img{filter:none;opacity:1}
+.brand{height:72px;width:150px;display:grid;place-items:center;padding:12px 18px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.brand img{max-height:40px;max-width:110px;object-fit:contain}
 
 /* ============ ТЕНДЕРЫ / ОБЪЕКТЫ ============ */
 .rowscroll{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 0 14px;margin-right:calc(var(--gutter) * -1);padding-right:var(--gutter);scrollbar-width:none}
@@ -269,10 +271,9 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 
 /* ============ ПАРТНЁРАМ ============ */
 .part{background:var(--ink);color:#fff;border-radius:var(--radius);padding:26px 22px;position:relative;overflow:hidden}
-.part::before{content:"";position:absolute;inset:0;background:
-  linear-gradient(to right,rgba(255,255,255,.05) 1px,transparent 1px),
-  linear-gradient(to bottom,rgba(255,255,255,.05) 1px,transparent 1px);background-size:32px 32px}
-.part > *{position:relative}
+.part::before{content:"";position:absolute;inset:0;background:url(https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/partners-truck.jpg) center/cover;opacity:.28}
+.part::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(20,29,36,.96) 30%,rgba(20,29,36,.55))}
+.part > *{position:relative;z-index:1}
 .part h2{color:#fff}
 .part .lead{color:rgba(255,255,255,.72)}
 .part .eyebrow{color:var(--brass-2)}.part .eyebrow::before{background:var(--brass-2)}
@@ -281,10 +282,6 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 .part-grid div{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:16px}
 .part-grid h3{font-size:16px;font-weight:700;color:var(--brass-2);margin-bottom:6px}
 .part-grid p{font-size:14px;color:rgba(255,255,255,.75)}
-.part-shot{margin-top:14px}
-.part-shot .shot{min-height:190px;border:1px solid rgba(255,255,255,.14)}
-.part-shot .shot::after{box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
-@media(min-width:820px){.part-shot .shot{min-height:250px}}
 
 /* ============ ПРОЦЕСС ============ */
 .steps{position:relative;padding-left:34px}
@@ -303,14 +300,24 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 }
 
 /* ============ ДОКУМЕНТЫ ============ */
+.docs-wrap{display:grid;gap:14px}
+@media(min-width:900px){.docs-wrap{grid-template-columns:1fr 1.4fr;align-items:start}}
+.docs-photo{border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line)}
+.docs-photo img{width:100%;height:100%;object-fit:cover}
 .docs{display:grid;gap:10px}
-@media(min-width:800px){.docs{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:600px){.docs{grid-template-columns:repeat(2,1fr)}}
 .doc{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 16px 16px 52px;position:relative;font-weight:600;font-size:14px}
 .doc::before{content:"";position:absolute;left:16px;top:16px;width:22px;height:28px;border:2px solid var(--steel);border-radius:3px;background:linear-gradient(#fff 0 0) padding-box}
 .doc::after{content:"";position:absolute;left:21px;top:26px;width:12px;height:2px;background:var(--steel);box-shadow:0 5px 0 var(--steel),0 10px 0 var(--steel)}
 .doc small{display:block;font-family:var(--f-mono);font-size:10px;color:var(--ink-2);font-weight:400;margin-top:4px;letter-spacing:.06em}
 
 /* ============ ЗАЯВКА ============ */
+.cta-grid{display:grid;gap:14px}
+@media(min-width:900px){.cta-grid{grid-template-columns:1.3fr .9fr}}
+.cta-photo{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);min-height:220px;position:relative}
+.cta-photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.cta-photo div{position:absolute;left:14px;right:14px;bottom:14px;background:rgba(255,255,255,.92);border-radius:12px;padding:12px 14px;font-size:14px}
+.cta-photo div b{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);display:block;margin-bottom:4px}
 .form-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px 20px;position:relative;overflow:hidden}
 .form-wrap::before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(185,138,43,.16),transparent 70%)}
 .field{display:block;margin-bottom:12px}
@@ -333,7 +340,7 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 /* ============ ДОК (нижняя панель) ============ */
 .dock{
   position:fixed;left:12px;right:12px;bottom:12px;z-index:60;
-  display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:6px;padding:6px;
+  display:grid;grid-template-columns:50px 1fr 1fr 1.3fr;gap:6px;padding:6px;align-items:center;
   background:rgba(20,29,36,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   border-radius:18px;box-shadow:0 20px 50px -20px rgba(20,29,36,.6);
   transform:translateY(120%);transition:transform .5s cubic-bezier(.2,.8,.2,1);
@@ -344,120 +351,7 @@ h2{font-size:clamp(24px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 .dock .d-call{background:rgba(255,255,255,.08)}
 .dock .d-wa{background:#25D366}
 .dock .d-req{background:var(--brass)}
-@media(min-width:900px){.dock{left:auto;right:24px;bottom:24px;width:420px}}
-
-/* ============ ЗЕРНО ПО ВСЕЙ СТРАНИЦЕ ============ */
-.grain{
-  position:fixed;inset:0;z-index:70;pointer-events:none;opacity:.55;mix-blend-mode:multiply;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.42'/></svg>");
-  background-size:140px 140px;
-}
-
-/* ============ ФОТОГРАФИИ ============ */
-.shot{position:relative;overflow:hidden;border-radius:var(--radius);background:var(--paper-2);isolation:isolate;margin:0}
-.shot img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.05);transition:transform 1.3s cubic-bezier(.2,.8,.2,1)}
-.shot:hover img{transform:scale(1.12)}
-.shot::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(20,29,36,.1)}
-.shot figcaption{
-  position:absolute;left:0;right:0;bottom:0;z-index:2;padding:30px 14px 11px;
-  background:linear-gradient(to top,rgba(16,24,30,.86),rgba(16,24,30,.35) 55%,transparent);
-  color:#fff;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;line-height:1.4;
-}
-.js .shot{clip-path:inset(0 0 100% 0);transition:clip-path 1.1s cubic-bezier(.2,.8,.2,1)}
-.js .shot.in{clip-path:inset(0 0 0 0)}
-
-/* вырезка товара на постаменте */
-.prod{position:relative;margin:0;border-radius:var(--radius);overflow:hidden;display:grid;place-items:center;
-  padding:16px;background:radial-gradient(120% 88% at 50% 14%,#FFFFFF,#E7EDEA 78%);border:1px solid var(--line)}
-.prod::before{content:"";position:absolute;left:16%;right:16%;bottom:11%;height:16px;border-radius:50%;
-  background:radial-gradient(closest-side,rgba(20,29,36,.24),transparent);filter:blur(3px)}
-.prod img{position:relative;width:100%;height:100%;object-fit:contain;
-  transition:transform .9s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 12px 18px rgba(20,29,36,.16))}
-.card:hover .prod img{transform:scale(1.07) rotate(-1.5deg)}
-.js .prod{clip-path:inset(0 0 100% 0);transition:clip-path 1.1s cubic-bezier(.2,.8,.2,1)}
-.js .prod.in{clip-path:inset(0 0 0 0)}
-
-/* ============ ЛЕНТА ФОТО ============ */
-.strip{overflow:hidden;margin:22px calc(var(--gutter) * -1) 0 calc((var(--rail-x) + 26px) * -1);padding:2px 0;
-  -webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent)}
-.strip-track{display:flex;gap:12px;width:max-content;animation:strip 52s linear infinite}
-.strip:hover .strip-track{animation-play-state:paused}
-.strip .shot{flex:none;width:min(70vw,340px);aspect-ratio:4/3}
-.js .strip .shot{clip-path:none}
-@keyframes strip{to{transform:translateX(-50%)}}
-
-/* ============ КАРТОЧКА: 3D-наклон и фото-слот ============ */
-.card{transition:transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .6s;transform-style:preserve-3d}
-.card.tilting{transition:transform .1s linear}
-.card:hover{box-shadow:0 1px 0 rgba(20,29,36,.03),0 40px 70px -40px rgba(20,29,36,.4)}
-.card-grid{display:grid;gap:18px}
-@media(min-width:820px){.card-grid{grid-template-columns:1fr 300px;align-items:start}}
-.card .prod{min-height:170px;aspect-ratio:4/3}
-@media(min-width:820px){.card .prod{aspect-ratio:1/1;min-height:190px}}
-.sklad-grid{display:grid;gap:12px}
-.sklad-grid .shot{min-height:230px}
-@media(min-width:820px){.sklad-grid{grid-template-columns:1.5fr 1fr 1fr}.sklad-grid .shot{min-height:320px}}
-.card .sym{transition:transform .7s cubic-bezier(.2,.8,.2,1),color .5s}
-.card:hover .sym{transform:rotate(-8deg) scale(1.08);color:var(--brass)}
-.js .chip{transform:translateY(8px);opacity:0;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .5s,border-color .2s,background .2s}
-.js .card.in .chip{transform:none;opacity:1}
-
-/* ============ ПРОЖЕКТОР В ПЕРВОМ ЭКРАНЕ ============ */
-.hero::before{
-  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .6s;
-  background:radial-gradient(420px circle at var(--mx,50%) var(--my,42%),rgba(60,140,184,.16),transparent 62%);
-}
-@media(hover:hover){.hero:hover::before{opacity:1}}
-
-/* ============ ПОДЧЁРКИВАНИЕ ЗАГОЛОВКОВ ============ */
-h2{position:relative;padding-bottom:12px}
-h2::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--brass);transition:width 1s .25s cubic-bezier(.2,.8,.2,1)}
-h2.in::after{width:72px}
-.part h2::after{background:var(--brass-2)}
-
-/* ============ ШАПКА: ПРЯЧЕТСЯ ПРИ СКРОЛЛЕ ВНИЗ ============ */
-.hdr{transition:transform .45s cubic-bezier(.2,.8,.2,1),background .3s}
-.hdr.hide{transform:translateY(-102%)}
-body.menu-open .hdr{transform:none!important}
-
-/* ============ ЦИФРЫ ============ */
-.stat b,.since b{font-variant-numeric:tabular-nums}
-
-/* ============ ШАГИ: ЛИНИЯ ЗАПОЛНЯЕТСЯ ============ */
-.steps::after{content:"";position:absolute;left:11px;top:14px;width:2px;height:0;background:var(--flow);transition:height 1.6s cubic-bezier(.3,.7,.3,1)}
-.steps.lit::after{height:calc(100% - 28px)}
-@media(min-width:900px){
-  .steps::after{left:0;top:11px;height:2px;width:0;transition:width 1.6s cubic-bezier(.3,.7,.3,1)}
-  .steps.lit::after{width:100%;height:2px}
-}
-
-/* ============ ОБЪЕКТЫ ============ */
-.obj{transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s}
-.obj:hover{transform:translateY(-6px);box-shadow:0 34px 60px -40px rgba(20,29,36,.45)}
-.obj .shot{border-radius:0;aspect-ratio:4/3}
-.obj .shot::after{box-shadow:none;border-bottom:1px solid var(--line)}
-.js .obj .shot{clip-path:none}
-
-/* ============ КНОПКИ: МАГНИТ И ЗАЛИВКА ============ */
-.btn-ink::before,.lnk:not(.alt)::before{
-  content:"";position:absolute;inset:0;background:var(--steel);
-  transform:translateY(101%);transition:transform .45s cubic-bezier(.2,.8,.2,1);z-index:0;
-}
-.btn-ink:hover::before,.lnk:not(.alt):hover::before{transform:translateY(0)}
-.btn-ink > *,.lnk > *{position:relative;z-index:1}
-.lnk{position:relative;overflow:hidden;transition:transform .3s}
-.btn-ink:hover{background:var(--ink)}
-
-/* ============ ДОК: ПУЛЬС НА ГЛАВНОЙ КНОПКЕ ============ */
-.dock .d-req{position:relative;overflow:hidden}
-.dock .d-req::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-120%);animation:sheen 3.6s ease-in-out infinite}
-
-@media(prefers-reduced-motion:reduce){
-  .dock .d-req::after,.strip-track{animation:none!important}
-  .shot,.prod{clip-path:none!important}
-  .chip{opacity:1!important;transform:none!important}
-  .grain{display:none}
-}
+@media(min-width:900px){.dock{left:auto;right:24px;bottom:24px;width:470px}}
 
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -477,18 +371,8 @@ body.menu-open .hdr{transform:none!important}
   "email": "rop@armgarant.kz",
   "image": "https://arm-garant.kz/assets/og-image.png",
   "logo": "https://arm-garant.kz/assets/logo.svg",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "ул. М. Дулатова, 187/1",
-    "addressLocality": "Астана",
-    "addressCountry": "KZ"
-  },
-  "openingHoursSpecification": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-    "opens": "09:00",
-    "closes": "18:00"
-  },
+  "address": {"@type": "PostalAddress","streetAddress": "ул. М. Дулатова, 187/1","addressLocality": "Астана","addressCountry": "KZ"},
+  "openingHoursSpecification": {"@type": "OpeningHoursSpecification","dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens": "09:00","closes": "18:00"},
   "sameAs": ["https://www.instagram.com/armgarant.kz"]
 }
 </script>
@@ -503,30 +387,14 @@ body.menu-open .hdr{transform:none!important}
   </a>
   <div class="hdr-r">
     <a class="hdr-phone" href="tel:+77078050031">+7 707 805 00 31</a>
-    <div class="gauge" title="Давление в системе растёт по мере прокрутки" aria-hidden="true">
-      <svg viewBox="0 0 100 100" id="gaugeSvg">
-        <circle cx="50" cy="50" r="46" fill="#fff" stroke="#CDD5D0" stroke-width="2"/>
-        <path d="M 20 78 A 40 40 0 1 1 80 78" fill="none" stroke="#DCE3DF" stroke-width="6" stroke-linecap="round"/>
-        <path d="M 89.5 43.7 A 40 40 0 0 1 78.3 78.3" fill="none" stroke="#C8412F" stroke-width="6" stroke-linecap="round" opacity=".85"/>
-        <g id="ticks"></g>
-        <g class="needle" id="needle" transform="rotate(-135 50 50)">
-          <path d="M50 50 L 50 14" stroke="#141D24" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="50" cy="50" r="5" fill="#B98A2B"/>
-        </g>
-        <text x="50" y="82" text-anchor="middle" class="val" id="gaugeVal">0.0 bar</text>
-        <text x="50" y="92" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#4B5A64">PN16</text>
-      </svg>
-    </div>
-    <div class="lang" role="group" aria-label="Язык сайта">
-      <button type="button" data-lang="ru" class="is-active" aria-pressed="true" lang="ru">RU</button>
-      <button type="button" data-lang="kk" aria-pressed="false" lang="kk">KZ</button>
-    </div>
+    
     <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span></button>
   </div>
 </header>
 
 <!-- МЕНЮ -->
 <nav class="menu" id="menu" aria-label="Схема сайта">
+  <button class="menu-close" id="menuClose" aria-label="Закрыть меню">×</button>
   <h4>Продукция</h4>
   <a href="#zapornaya"><span class="tag">ЗА·808</span>Запорная арматура</a>
   <a href="#polipropilen"><span class="tag">ПП·364</span>Полипропиленовые системы</a>
@@ -559,55 +427,13 @@ body.menu-open .hdr{transform:none!important}
 <section class="sec hero" id="top">
   <span class="node open" aria-hidden="true"><i></i><span class="lbl">вход</span></span>
 
-  <svg class="hero-valve" viewBox="0 0 300 340" aria-hidden="true" id="heroValve">
-    <defs>
-      <linearGradient id="gSteel" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#DCE6EA"/>
-      </linearGradient>
-      <linearGradient id="gBrass" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#E9C669"/><stop offset="1" stop-color="#B98A2B"/>
-      </linearGradient>
-    </defs>
-    <!-- фланцы и труба -->
-    <rect x="0" y="228" width="300" height="34" rx="4" fill="url(#gSteel)" stroke="#2C5D78" stroke-width="2"/>
-    <rect x="52" y="208" width="26" height="74" rx="3" fill="#fff" stroke="#2C5D78" stroke-width="2"/>
-    <rect x="222" y="208" width="26" height="74" rx="3" fill="#fff" stroke="#2C5D78" stroke-width="2"/>
-    <g stroke="#2C5D78" stroke-width="2" fill="#fff">
-      <circle cx="65" cy="218" r="3"/><circle cx="65" cy="272" r="3"/>
-      <circle cx="235" cy="218" r="3"/><circle cx="235" cy="272" r="3"/>
-    </g>
-    <!-- корпус -->
-    <path d="M78 214 L222 214 L222 276 L78 276 Z" fill="url(#gSteel)" stroke="#2C5D78" stroke-width="2"/>
-    <path d="M100 214 L150 130 L200 214" fill="#fff" stroke="#2C5D78" stroke-width="2"/>
-    <path d="M100 276 L150 190 L200 276" fill="none" stroke="#2C5D78" stroke-width="1.2" stroke-dasharray="4 4"/>
-    <!-- бугель -->
-    <rect x="128" y="96" width="44" height="40" rx="4" fill="#fff" stroke="#2C5D78" stroke-width="2"/>
-    <rect x="144" y="70" width="12" height="60" fill="url(#gSteel)" stroke="#2C5D78" stroke-width="2"/>
-    <!-- маховик -->
-    <g class="wheel" id="wheel">
-      <circle cx="150" cy="62" r="46" fill="none" stroke="url(#gBrass)" stroke-width="9"/>
-      <circle cx="150" cy="62" r="46" fill="none" stroke="#2C5D78" stroke-width="1.2"/>
-      <circle cx="150" cy="62" r="37" fill="none" stroke="#2C5D78" stroke-width="1.2"/>
-      <g stroke="url(#gBrass)" stroke-width="7" stroke-linecap="round">
-        <path d="M150 62 L150 24"/><path d="M150 62 L182.9 81"/><path d="M150 62 L117.1 81"/>
-      </g>
-      <circle cx="150" cy="62" r="10" fill="url(#gBrass)" stroke="#2C5D78" stroke-width="1.5"/>
-    </g>
-    <!-- размерные линии как на чертеже -->
-    <g stroke="#2C5D78" stroke-width="1" opacity=".55">
-      <path d="M52 300 L248 300"/><path d="M52 294 L52 306"/><path d="M248 294 L248 306"/>
-    </g>
-    <text x="150" y="318" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#2C5D78" opacity=".8">DN 50–1200 · PN 10–40</text>
-    <!-- поток -->
-    <g stroke="#3C8CB8" stroke-width="3" stroke-dasharray="10 12" stroke-linecap="round" opacity=".7">
-      <path d="M8 245 L292 245" id="flowLine"/>
-    </g>
-  </svg>
+  
 
-  <div class="wrap">
+  <div class="wrap hero-grid">
+  <div>
     <div class="eyebrow">Астана · поставки по всему Казахстану · с 2017</div>
     <h1 id="h1"><span class="w"><span>Арматура,</span></span> <span class="w"><span>КИП,</span></span> <span class="w"><span>детали</span></span> <span class="w"><span>труб.</span></span><br><span class="w"><span class="brass">Одна</span></span> <span class="w"><span class="brass">поставка.</span></span></h1>
-    <p class="lead rv">Комплектуем объект по спецификации. Одна поставка, полный пакет документов, любой регион.</p>
+    <p class="lead rv">Комплектуем промышленные и строительные объекты по спецификации: трубопроводная арматура, КИПиА, насосы, детали трубопроводов. Полный пакет документов для тендеров, доставка в любой регион.</p>
     <div class="hero-cta rv d1">
       <a class="btn btn-ink" href="#zayavka">Отправить спецификацию
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -623,6 +449,25 @@ body.menu-open .hdr{transform:none!important}
       <span>Сертификаты и СТ-1</span><span>КП построчно за 15 минут</span><span>Отсрочка партнёрам</span>
     </div>
   </div>
+  <div class="rv d1">
+    <div class="hero-photo">
+      <img src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/hero-pipes.png" alt="Трубопроводная арматура и инженерное оборудование Арм-гарант" id="heroImg">
+      <span class="cap">склад · Астана · 1 641 позиция</span>
+      <svg class="wheel-badge" viewBox="0 0 100 100" aria-hidden="true">
+        <defs><linearGradient id="gBrass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9C669"/><stop offset="1" stop-color="#B98A2B"/></linearGradient></defs>
+        <circle cx="50" cy="50" r="46" fill="#fff" stroke="#CDD5D0"/>
+        <g class="wheel" id="wheel">
+          <circle cx="50" cy="50" r="34" fill="none" stroke="url(#gBrass)" stroke-width="7"/>
+          <circle cx="50" cy="50" r="34" fill="none" stroke="#2C5D78" stroke-width="1"/>
+          <g stroke="url(#gBrass)" stroke-width="5" stroke-linecap="round"><path d="M50 50 V20"/><path d="M50 50 L76 65"/><path d="M50 50 L24 65"/></g>
+          <circle cx="50" cy="50" r="8" fill="url(#gBrass)" stroke="#2C5D78"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-thumbs">
+      <img src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/hero-thumb-1.png" alt=""><img src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/hero-thumb-2.png" alt=""><img src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/hero-thumb-3.png" alt=""><img src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/hero-thumb-4.png" alt=""><img src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/hero-thumb-5.png" alt="">
+    </div>
+  </div>
   <div class="scroll-hint" aria-hidden="true"><i></i>откройте задвижку, листайте вниз</div>
 </section>
 
@@ -632,27 +477,21 @@ body.menu-open .hdr{transform:none!important}
   <div class="wrap">
     <div class="eyebrow rv">Наша продукция · 7 разделов</div>
     <h2 class="rv d1">Схема поставки: каждый узел закрываем сами</h2>
-    <p class="lead rv d2">Семь направлений. По каждому — свой раздел каталога.</p>
+    <p class="lead rv d2">Работаем с ведущими производителями. Поставим любую позицию под ваш объект. Ниже основные разделы, по каждому есть отдельная страница каталога.</p>
   </div>
-  <div class="strip rv d3"><div class="strip-track" id="strip"></div></div>
 </section>
 
 <!-- ЗАПОРНАЯ АРМАТУРА -->
 <section class="cat" id="zapornaya">
   <span class="node" aria-hidden="true"><i></i></span>
   <article class="card rv">
-    <div class="card-grid"><div>
-      <div class="card-top">
+    <div class="card-top">
       <div>
         <div class="tagline"><span>Узел ЗА</span><b>808 позиций онлайн</b></div>
         <h3>Запорная арматура</h3>
-        <p>Задвижки, затворы, регулирующие клапаны, шаровые краны. LD, STI, ALSO, Temper.</p>
+        <p>Задвижки стальные и чугунные, шиберные, с редуктором и электроприводом, затворы поворотные, регулирующие клапаны, шаровые краны LD, STI, ALSO, Temper.</p>
       </div>
-      <div class="sym" aria-hidden="true">
-        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
-          <path d="M10 62 L50 40 L10 18 Z M90 62 L50 40 L90 18 Z"/><path d="M50 40 V16"/><path d="M34 16 H66"/><path d="M4 40 H10 M90 40 H96"/>
-        </svg>
-      </div>
+      <div class="pic"><img src="https://arm-garant.kz/wp-content/uploads/2026/08/1-1-768x768.png" alt="" loading="lazy"></div>
     </div>
     <div class="chips">
       <a class="chip" href="https://arm-garant.kz/product-category/zapornaya-armatura/zatvory-povorotnye/">Затворы поворотные<small>119</small></a>
@@ -667,9 +506,6 @@ body.menu-open .hdr{transform:none!important}
     <div class="card-act">
       <a class="lnk" href="https://arm-garant.kz/product-category/zapornaya-armatura/">Открыть раздел</a>
       <a class="lnk alt" href="#zayavka" data-topic="Запорная арматура">Запросить КП</a>
-      </div>
-      </div>
-      <figure class="prod"><img src="assets/shots/p-zadvizhki-stalnye.webp" alt="Задвижка стальная фланцевая" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -678,18 +514,13 @@ body.menu-open .hdr{transform:none!important}
 <section class="cat" id="polipropilen">
   <span class="node" aria-hidden="true"><i></i></span>
   <article class="card rv">
-    <div class="card-grid"><div>
-      <div class="card-top">
+    <div class="card-top">
       <div>
         <div class="tagline"><span>Узел ПП</span><b>364 позиции онлайн</b></div>
         <h3>Полипропиленовые системы</h3>
-        <p>Трубы и фитинги PPR. Вся линейка диаметров.</p>
+        <p>Трубы и фитинги PPR для водоснабжения и отопления. Полная линейка диаметров, муфты, уголки, тройники, краны.</p>
       </div>
-      <div class="sym" aria-hidden="true">
-        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
-          <path d="M8 36 H52 A14 14 0 0 1 66 50 V92"/><path d="M8 60 H46 A2 2 0 0 0 48 58 V56"/><path d="M34 60 V92 M8 36 V8"/><circle cx="66" cy="20" r="10"/><path d="M66 30 V40"/>
-        </svg>
-      </div>
+      <div class="pic"><img src="https://arm-garant.kz/wp-content/uploads/2026/08/chatgpt-image-17-avg.-2026-g.-13_26_40-768x512.png" alt="" loading="lazy"></div>
     </div>
     <div class="chips">
       <a class="chip" href="https://arm-garant.kz/product-category/polipropilenovye-sistemy/fitingi-polipropilenovye/">Фитинги полипропиленовые<small>310</small></a>
@@ -698,9 +529,6 @@ body.menu-open .hdr{transform:none!important}
     <div class="card-act">
       <a class="lnk" href="https://arm-garant.kz/product-category/polipropilenovye-sistemy/">Открыть раздел</a>
       <a class="lnk alt" href="#zayavka" data-topic="Полипропиленовые системы">Запросить КП</a>
-      </div>
-      </div>
-      <figure class="prod"><img src="assets/shots/p-truby-polipropilenovye.webp" alt="Трубы полипропиленовые PPR" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -709,18 +537,13 @@ body.menu-open .hdr{transform:none!important}
 <section class="cat" id="detali">
   <span class="node" aria-hidden="true"><i></i></span>
   <article class="card rv">
-    <div class="card-grid"><div>
-      <div class="card-top">
+    <div class="card-top">
       <div>
         <div class="tagline"><span>Узел ДТ</span><b>230 позиций онлайн</b></div>
         <h3>Детали трубопроводов</h3>
-        <p>Фланцы, отводы, переходы, тройники, компенсаторы, крепёж.</p>
+        <p>Фланцы плоские, отводы крутоизогнутые, переходы, тройники, заглушки, сгоны, резьбы, компенсаторы сильфонные, муфты ПФРК и ДРК, крепёж.</p>
       </div>
-      <div class="sym" aria-hidden="true">
-        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
-          <path d="M10 30 H40 A30 30 0 0 1 70 60 V90"/><path d="M10 52 H40 A8 8 0 0 1 48 60 V90"/><path d="M10 26 V56 M6 26 H14 M6 56 H14"/><path d="M44 90 H74 M44 94 H74"/>
-        </svg>
-      </div>
+      <div class="pic"><img src="https://arm-garant.kz/wp-content/uploads/2026/08/chatgpt-image-17-avg.-2026-g.-13_28_11-768x512.png" alt="" loading="lazy"></div>
     </div>
     <div class="chips">
       <a class="chip" href="https://arm-garant.kz/product-category/detali-truboprovodov/flanczy-stalnye-ploskie/">Фланцы стальные плоские<small>42</small></a>
@@ -734,9 +557,6 @@ body.menu-open .hdr{transform:none!important}
     <div class="card-act">
       <a class="lnk" href="https://arm-garant.kz/product-category/detali-truboprovodov/">Открыть раздел</a>
       <a class="lnk alt" href="#zayavka" data-topic="Детали трубопроводов">Запросить КП</a>
-      </div>
-      </div>
-      <figure class="prod"><img src="assets/shots/p-flanczy-stalnye-ploskie.webp" alt="Фланцы стальные плоские" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -745,18 +565,13 @@ body.menu-open .hdr{transform:none!important}
 <section class="cat" id="kip">
   <span class="node" aria-hidden="true"><i></i></span>
   <article class="card rv">
-    <div class="card-grid"><div>
-      <div class="card-top">
+    <div class="card-top">
       <div>
         <div class="tagline"><span>Узел КИП</span><b>83 позиции онлайн</b></div>
         <h3>Контрольно-измерительные приборы</h3>
-        <p>Манометры, термометры, термоманометры. Паспорта в комплекте.</p>
+        <p>Манометры, термоманометры, термометры для тепловых пунктов, котельных и технологических линий. Поверка и паспорта в комплекте.</p>
       </div>
-      <div class="sym" aria-hidden="true">
-        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-          <circle cx="50" cy="44" r="34"/><path d="M50 44 L68 26"/><circle cx="50" cy="44" r="4"/><path d="M50 78 V92 M40 92 H60"/><path d="M26 44 h4 M70 44 h4 M50 14 v4"/>
-        </svg>
-      </div>
+      <div class="pic"><img src="https://arm-garant.kz/wp-content/uploads/2026/08/chatgpt-image-17-avg.-2026-g.-13_30_14-768x512.png" alt="" loading="lazy"></div>
     </div>
     <div class="chips">
       <a class="chip" href="https://arm-garant.kz/product-category/kontrolno-izmeritelnye-pribory/manometry/">Манометры<small>39</small></a>
@@ -766,9 +581,6 @@ body.menu-open .hdr{transform:none!important}
     <div class="card-act">
       <a class="lnk" href="https://arm-garant.kz/product-category/kontrolno-izmeritelnye-pribory/">Открыть раздел</a>
       <a class="lnk alt" href="#zayavka" data-topic="КИПиА">Запросить КП</a>
-      </div>
-      </div>
-      <figure class="prod"><img src="assets/shots/p-manometry.webp" alt="Манометр технический" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -777,18 +589,13 @@ body.menu-open .hdr{transform:none!important}
 <section class="cat" id="svarka">
   <span class="node" aria-hidden="true"><i></i></span>
   <article class="card rv">
-    <div class="card-grid"><div>
-      <div class="card-top">
+    <div class="card-top">
       <div>
         <div class="tagline"><span>Узел СВ</span><b>53 позиции онлайн</b></div>
         <h3>Сварочные материалы</h3>
-        <p>Электроды для углеродистых и легированных сталей. Упаковками и паллетами.</p>
+        <p>Электроды для ручной дуговой сварки углеродистых и легированных сталей. Поставляем упаковками и паллетами под объект.</p>
       </div>
-      <div class="sym" aria-hidden="true">
-        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-          <path d="M20 80 L60 40"/><path d="M60 40 L72 28" stroke-width="6"/><path d="M14 86 L22 78"/><path d="M76 24 l6 -6 M82 30 l6 -6 M70 18 l6 -6" stroke="#B98A2B"/>
-        </svg>
-      </div>
+      <div class="pic"><img src="https://arm-garant.kz/wp-content/uploads/2026/08/chatgpt-image-17-avg.-2026-g.-13_32_01-768x512.png" alt="" loading="lazy"></div>
     </div>
     <div class="chips">
       <a class="chip" href="https://arm-garant.kz/product-category/svarochnye-materialy/elektrody/">Электроды<small>53</small></a>
@@ -796,9 +603,6 @@ body.menu-open .hdr{transform:none!important}
     <div class="card-act">
       <a class="lnk" href="https://arm-garant.kz/product-category/svarochnye-materialy/">Открыть раздел</a>
       <a class="lnk alt" href="#zayavka" data-topic="Сварочные материалы">Запросить КП</a>
-      </div>
-      </div>
-      <figure class="prod"><img src="assets/shots/p-elektrody.webp" alt="Электроды сварочные" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -807,18 +611,13 @@ body.menu-open .hdr{transform:none!important}
 <section class="cat" id="fitingi">
   <span class="node" aria-hidden="true"><i></i></span>
   <article class="card rv">
-    <div class="card-grid"><div>
-      <div class="card-top">
+    <div class="card-top">
       <div>
         <div class="tagline"><span>Узел ФТ</span><b>19 позиций онлайн</b></div>
         <h3>Фитинги латунные резьбовые</h3>
-        <p>Латунь: муфты, ниппели, уголки, тройники, переходы.</p>
+        <p>Муфты, ниппели, уголки, тройники, переходы из латуни для внутренних сетей водоснабжения и отопления.</p>
       </div>
-      <div class="sym" aria-hidden="true">
-        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
-          <path d="M10 40 H36 V64 H10 Z M64 40 H90 V64 H64 Z"/><path d="M36 46 H64 M36 58 H64"/><path d="M14 46 h4 M14 52 h4 M14 58 h4 M82 46 h4 M82 52 h4 M82 58 h4"/>
-        </svg>
-      </div>
+      <div class="pic"><img src="https://arm-garant.kz/wp-content/uploads/2026/08/chatgpt-image-17-avg.-2026-g.-13_35_02-768x768.png" alt="" loading="lazy"></div>
     </div>
     <div class="chips">
       <a class="chip" href="https://arm-garant.kz/product-category/fitingi/fitingi-latunnye-rezbovye/">Фитинги латунные резьбовые<small>19</small></a>
@@ -826,9 +625,6 @@ body.menu-open .hdr{transform:none!important}
     <div class="card-act">
       <a class="lnk" href="https://arm-garant.kz/product-category/fitingi/">Открыть раздел</a>
       <a class="lnk alt" href="#zayavka" data-topic="Фитинги">Запросить КП</a>
-      </div>
-      </div>
-      <figure class="prod"><img src="assets/shots/p-fitingi-latunnye-rezbovye.webp" alt="Фитинги латунные резьбовые" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -837,12 +633,11 @@ body.menu-open .hdr{transform:none!important}
 <section class="cat" id="filtry">
   <span class="node" aria-hidden="true"><i></i></span>
   <article class="card rv">
-    <div class="card-grid"><div>
-      <div class="card-top">
+    <div class="card-top">
       <div>
         <div class="tagline"><span>Узел ФЛ</span><b>84 позиции онлайн</b></div>
         <h3>Фильтры и грязевики</h3>
-        <p>Сетчатые фильтры, грязевики LD, сменные сетки.</p>
+        <p>Фильтры сетчатые фланцевые и муфтовые, грязевики LD, запчасти и сменные сетки для защиты арматуры и насосов.</p>
       </div>
       <div class="sym" aria-hidden="true">
         <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
@@ -857,9 +652,6 @@ body.menu-open .hdr{transform:none!important}
     <div class="card-act">
       <a class="lnk" href="https://arm-garant.kz/product-category/filtry/">Открыть раздел</a>
       <a class="lnk alt" href="#zayavka" data-topic="Фильтры">Запросить КП</a>
-      </div>
-      </div>
-      <figure class="prod"><img src="assets/shots/p-gryazeviki-ld.webp" alt="Фильтр сетчатый фланцевый LD" loading="lazy" decoding="async" width="620" height="620"></figure>
     </div>
   </article>
 </section>
@@ -870,27 +662,13 @@ body.menu-open .hdr{transform:none!important}
   <div class="wrap">
     <div class="eyebrow rv">Не нашли позицию?</div>
     <h2 class="rv d1">Пришлите спецификацию, остальное сделаем мы</h2>
-    <p class="lead rv d2">Найдём оригинал или аналог с сохранением параметров.</p>
+    <p class="lead rv d2">Подберём решение, найдём оригинал или предложим аналог с сохранением параметров, поставим под заказ напрямую от производителя.</p>
     <div class="grid2 grid4">
-      <div class="tile rv"><div class="k">Подбор</div><h3>Найдём оригинал или аналог</h3><p>Давление, среда, материал, присоединение.</p></div>
-      <div class="tile rv d1"><div class="k">Спецификация</div><h3>Разберём проект построчно</h3><p>Разберём ведомость, вернём подбор с ценами.</p></div>
-      <div class="tile rv d2"><div class="k">Под заказ</div><h3>Поставим от производителя</h3><p>Напрямую, в согласованный срок.</p></div>
-      <div class="tile rv d3"><div class="k">Совместимость</div><h3>Проверим параметры</h3><p>Размеры, давление, ГОСТ и ТР ТС.</p></div>
-      <div class="tile brass rv d1" style="grid-column:1/-1"><div class="k">Персональный менеджер</div><h3>Сопровождаем на всех этапах: от заявки до отгрузки</h3><p>Оригинал, документы, одна поставка.</p><div class="card-act"><a class="lnk" href="#zayavka">Отправить спецификацию</a><a class="lnk alt" href="https://wa.me/77078050031?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9E%D1%82%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D1%8F%D1%8E%20%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8E%20%D0%BD%D0%B0%20%D0%BF%D0%BE%D0%B4%D0%B1%D0%BE%D1%80" target="_blank" rel="noopener">В WhatsApp</a></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- СКЛАД -->
-<section class="sec" id="sklad">
-  <span class="node" aria-hidden="true"><i></i><span class="lbl">склад</span></span>
-  <div class="wrap">
-    <div class="eyebrow rv">Собственный склад · Астана</div>
-    <h2 class="rv d1">Видно, откуда едет ваш заказ</h2>
-    <div class="sklad-grid">
-      <figure class="shot"><img src="assets/shots/obvyazka.webp" alt="Склад и офис Арм-гарант в Астане" width="1024" height="683"><figcaption>Склад и офис · Астана</figcaption></figure>
-      <figure class="shot"><img src="assets/shots/opt.webp" alt="Стеллажи склада с трубопроводной арматурой" loading="lazy" decoding="async" width="760" height="292"><figcaption>Позиции в наличии на складе</figcaption></figure>
-      <figure class="shot"><img src="assets/shots/fura.webp" alt="Отгрузка заказа транспортной компании" loading="lazy" decoding="async" width="760" height="434"><figcaption>Отгрузка со склада</figcaption></figure>
+      <div class="tile rv"><div class="k">Подбор</div><h3>Найдём оригинал или аналог</h3><p>По вашим техническим требованиям: давление, среда, материал, присоединение.</p></div>
+      <div class="tile rv d1"><div class="k">Спецификация</div><h3>Разберём проект построчно</h3><p>Проанализируем ведомость и подготовим подбор с коммерческим предложением.</p></div>
+      <div class="tile rv d2"><div class="k">Под заказ</div><h3>Поставим от производителя</h3><p>Организуем поставку напрямую в согласованные сроки.</p></div>
+      <div class="tile rv d3"><div class="k">Совместимость</div><h3>Проверим параметры</h3><p>Размеры, давление, материалы и стандарты ГОСТ, ТР ТС.</p></div>
+      <div class="tile brass rv d1" style="grid-column:1/-1"><div class="k">Персональный менеджер</div><h3>Сопровождаем на всех этапах: от заявки до отгрузки</h3><p>Оригинальная продукция, сертифицированные поставщики, вся спецификация одной поставкой.</p><div class="card-act"><a class="lnk" href="#zayavka">Отправить спецификацию</a><a class="lnk alt" href="https://wa.me/77078050031?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9E%D1%82%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D1%8F%D1%8E%20%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8E%20%D0%BD%D0%B0%20%D0%BF%D0%BE%D0%B4%D0%B1%D0%BE%D1%80" target="_blank" rel="noopener">В WhatsApp</a></div></div>
     </div>
   </div>
 </section>
@@ -902,14 +680,14 @@ body.menu-open .hdr{transform:none!important}
     <div class="eyebrow rv">Почему Арм-гарант выбирают снабженцы и подрядчики</div>
     <h2 class="rv d1">Ведомость требований: закрыто по всем пунктам</h2>
     <div class="spec rv d2">
-      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Широкий ассортимент в наличии</h3></div></div>
-      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Быстрая отгрузка</h3></div></div>
-      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Конкурентные цены</h3></div></div>
-      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Гарантированное качество</h3></div></div>
-      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Профессиональная консультация</h3></div></div>
-      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Комплектация под ключ</h3></div></div>
-      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Доставка по всему Казахстану</h3></div></div>
-      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Надёжный партнёр</h3></div></div>
+      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Широкий ассортимент в наличии</h3><p>Арматура, детали трубопроводов, инженерные системы и комплектующие в одном месте.</p></div></div>
+      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Быстрая отгрузка</h3><p>Востребованные позиции на складе в Астане: комплектуем объекты без задержек.</p></div></div>
+      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Конкурентные цены</h3><p>Прямые поставки от производителей для розничных и оптовых клиентов.</p></div></div>
+      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Гарантированное качество</h3><p>Сертифицированная продукция по ГОСТ, ТР ТС и технической документации.</p></div></div>
+      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Профессиональная консультация</h3><p>Подбираем оборудование под технические требования проекта.</p></div></div>
+      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Комплектация под ключ</h3><p>Закрываем потребности объекта целиком: один поставщик вместо десяти.</p></div></div>
+      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Доставка по всему Казахстану</h3><p>Любой регион, удобная транспортная компания, самовывоз в Астане.</p></div></div>
+      <div class="spec-row"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div><div><h3>Надёжный партнёр</h3><p>С 2017 года выполняем обязательства в срок и строим долгосрочные отношения.</p></div></div>
     </div>
     <div class="since rv d3">
       <div><b><span data-count="1641">0</span></b><span>позиций в каталоге</span></div>
@@ -938,11 +716,11 @@ body.menu-open .hdr{transform:none!important}
     <div class="eyebrow rv">Работаем с объектами и тендерами</div>
     <h2 class="rv d1">Комплектная поставка по спецификации. Официально</h2>
     <div class="grid2">
-      <div class="tile rv"><div class="k">КП</div><h3>Разберём спецификацию построчно</h3><p>Цены и сроки по каждой строке.</p></div>
-      <div class="tile rv d1"><div class="k">Документы</div><h3>Подготовим комплект для тендера</h3><p>Сертификаты, ТТН, СТ-1, паспорта, договор.</p></div>
-      <div class="tile rv d2"><div class="k">Госзакуп и коммерция</div><h3>Государственные и коммерческие тендеры</h3><p>Знаем требования площадок, работаем по ЭДО.</p></div>
-      <div class="tile rv d3"><div class="k">Один договор</div><h3>Несколько категорий, одна поставка</h3><p>Разные разделы каталога — одна отгрузка.</p></div>
-      <div class="tile brass rv d2" style="grid-column:1/-1"><div class="k">Отсрочка платежа</div><h3>Проверенным партнёрам предоставляем отсрочку</h3><div class="card-act"><a class="lnk" href="#zayavka">Отправить спецификацию</a></div></div>
+      <div class="tile rv"><img class="ico" src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/tenders/tender-1.png" alt="" loading="lazy"><div class="k">КП</div><h3>Разберём спецификацию построчно</h3><p>Предложим коммерческое предложение с ценами и сроками по каждой позиции.</p></div>
+      <div class="tile rv d1"><img class="ico" src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/tenders/tender-2.png" alt="" loading="lazy"><div class="k">Документы</div><h3>Подготовим комплект для тендера</h3><p>Сертификаты, ТТН, СТ-1, паспорта, договор поставки.</p></div>
+      <div class="tile rv d2"><img class="ico" src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/tenders/tender-4.png" alt="" loading="lazy"><div class="k">Госзакуп и коммерция</div><h3>Государственные и коммерческие тендеры</h3><p>Знаем требования площадок и сроки, работаем по ЭДО.</p></div>
+      <div class="tile rv d3"><img class="ico" src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/tenders/tender-3.png" alt="" loading="lazy"><div class="k">Один договор</div><h3>Несколько категорий, одна поставка</h3><p>Скомплектуем заказ из разных разделов каталога в одну отгрузку.</p></div>
+      <div class="tile brass rv d2" style="grid-column:1/-1"><img class="ico" src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/tenders/tender-5.png" alt="" loading="lazy"><div class="k">Отсрочка платежа</div><h3>Проверенным партнёрам предоставляем отсрочку</h3><div class="card-act"><a class="lnk" href="#zayavka">Отправить спецификацию</a></div></div>
     </div>
   </div>
 </section>
@@ -955,19 +733,19 @@ body.menu-open .hdr{transform:none!important}
     <h2 class="rv d1">Нефтянка, строительство, ЖКХ, промышленность</h2>
     <div class="rowscroll rv d2">
       <article class="obj">
-                <figure class="shot"><img src="assets/shots/obekt-vodokanal.webp" alt="Реконструкция водоканала, Караганда" loading="lazy" decoding="async" width="700" height="511"></figure>
+        <div class="obj-img"><img src="https://arm-garant.kz/wp-content/uploads/2026/08/project-1-1024x747.jpg" alt="Реконструкция водоканала г. Караганда" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
         <div class="obj-b"><h3>Реконструкция водоканала г. Караганда</h3><dl><div><dt>Отрасль</dt><dd>ЖКХ</dd></div><div><dt>Объём</dt><dd>420 ед.</dd></div><div><dt>Срок</dt><dd>5 мес.</dd></div></dl></div>
       </article>
       <article class="obj">
-                <figure class="shot"><img src="assets/shots/obekt-tc.webp" alt="Нефтеперерабатывающий завод" loading="lazy" decoding="async" width="700" height="511"></figure>
+        <div class="obj-img"><img src="https://arm-garant.kz/wp-content/uploads/2026/08/project-2-1024x747.jpg" alt="Поставка для нефтеперерабатывающего завода" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
         <div class="obj-b"><h3>Поставка для нефтеперерабатывающего завода</h3><dl><div><dt>Отрасль</dt><dd>Нефтянка</dd></div><div><dt>Объём</dt><dd>260 ед.</dd></div><div><dt>Срок</dt><dd>4 мес.</dd></div></dl></div>
       </article>
       <article class="obj">
-                <figure class="shot"><img src="assets/shots/obekt-npz.webp" alt="Котельная жилого комплекса" loading="lazy" decoding="async" width="700" height="511"></figure>
+        <div class="obj-img"><img src="https://arm-garant.kz/wp-content/uploads/2026/08/project-3-1024x747.jpg" alt="Оснащение котельной ЖК «Премиум»" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
         <div class="obj-b"><h3>Оснащение котельной ЖК «Премиум»</h3><dl><div><dt>Отрасль</dt><dd>ЖКХ</dd></div><div><dt>Объём</dt><dd>340 ед.</dd></div><div><dt>Срок</dt><dd>3 мес.</dd></div></dl></div>
       </article>
       <article class="obj">
-                <figure class="shot"><img src="assets/shots/ceh.webp" alt="Трубопроводная обвязка промышленного цеха" loading="lazy" decoding="async" width="700" height="511"></figure>
+        <div class="obj-img"><img src="https://arm-garant.kz/wp-content/uploads/2026/08/project-4-1024x747.jpg" alt="Трубопроводная обвязка промышленного цеха" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
         <div class="obj-b"><h3>Трубопроводная обвязка промышленного цеха</h3><dl><div><dt>Отрасль</dt><dd>Пром.</dd></div><div><dt>Объём</dt><dd>180 ед.</dd></div><div><dt>Срок</dt><dd>2 мес.</dd></div></dl></div>
       </article>
     </div>
@@ -981,13 +759,12 @@ body.menu-open .hdr{transform:none!important}
     <div class="part rv">
       <div class="eyebrow">Для партнёров и дилеров</div>
       <h2>Надёжный бэк-офис вашего снабжения</h2>
-      <p class="lead">Оптовые цены, приоритет заявок, одно КП на всё.</p>
+      <p class="lead">Оптовые поставки и партнёрские условия. С нами вы получаете не просто поставщика, а партнёра для роста вашего бизнеса.</p>
       <div class="part-grid">
-        <div><h3>Оптовые цены</h3><p>На складе — сразу, остальное за 1–3 дня.</p></div>
-        <div><h3>Постоянный приоритет</h3><p>Ваши заявки идут первыми.</p></div>
-        <div><h3>Единое КП</h3><p>Много позиций — одна поставка, один договор.</p></div>
+        <div><h3>Оптовые цены</h3><p>Конкурентные условия для партнёров. В наличии на складе, остальное привозим за 1–3 дня.</p></div>
+        <div><h3>Постоянный приоритет</h3><p>Ваши заявки обрабатываются в первую очередь.</p></div>
+        <div><h3>Единое КП</h3><p>Широкий спектр позиций в одной поставке и одном договоре.</p></div>
       </div>
-      <div class="part-shot"><figure class="shot"><img src="assets/shots/dilerstvo.webp" alt="Подписание партнёрского договора" loading="lazy" decoding="async" width="1040" height="400"><figcaption>Партнёрские условия и отсрочка</figcaption></figure></div>
       <div class="card-act" style="margin-top:20px"><a class="lnk" style="background:var(--brass)" href="#zayavka" data-topic="Партнёрство">Стать партнёром</a></div>
     </div>
   </div>
@@ -1000,11 +777,11 @@ body.menu-open .hdr{transform:none!important}
     <div class="eyebrow rv">Как мы работаем</div>
     <h2 class="rv d1">Просто. Быстро. Без бюрократии</h2>
     <div class="steps rv d2">
-      <div class="step"><span class="dot">1</span><span class="t">0 мин</span><h3>Вы отправляете заявку</h3><p>Форма, WhatsApp или почта. Можно файлом.</p></div>
-      <div class="step"><span class="dot">2</span><span class="t">до 15 мин</span><h3>Менеджер перезванивает</h3><p>Уточняем объём, сроки, условия.</p></div>
-      <div class="step"><span class="dot">3</span><span class="t">КП</span><h3>Готовим КП построчно</h3><p>Цены, сроки, аналоги.</p></div>
-      <div class="step"><span class="dot">4</span><span class="t">ЭДО</span><h3>Договор и счёт</h3><p>Электронный документооборот.</p></div>
-      <div class="step"><span class="dot">5</span><span class="t">отгрузка</span><h3>Поставляем в срок</h3><p>Транспортной компанией или самовывоз.</p></div>
+      <div class="step"><span class="dot">1</span><span class="t">0 мин</span><h3>Вы отправляете заявку</h3><p>Форма, кнопка, WhatsApp или email. Спецификацию можно файлом.</p></div>
+      <div class="step"><span class="dot">2</span><span class="t">до 15 мин</span><h3>Менеджер перезванивает</h3><p>Уточняем детали, объём, сроки и условия поставки.</p></div>
+      <div class="step"><span class="dot">3</span><span class="t">КП</span><h3>Готовим КП построчно</h3><p>Цены, сроки, аналоги при необходимости.</p></div>
+      <div class="step"><span class="dot">4</span><span class="t">ЭДО</span><h3>Договор и счёт</h3><p>Электронный документооборот, никаких лишних визитов.</p></div>
+      <div class="step"><span class="dot">5</span><span class="t">отгрузка</span><h3>Поставляем в срок</h3><p>Доставка транспортной компанией или самовывоз в Астане.</p></div>
     </div>
   </div>
 </section>
@@ -1015,14 +792,15 @@ body.menu-open .hdr{transform:none!important}
   <div class="wrap">
     <div class="eyebrow rv">Документы и сертификаты</div>
     <h2 class="rv d1">Полный пакет для тендерных заявок и госзакупок</h2>
-    <div class="docs rv d2">
+    <div class="docs-wrap rv d2"><div class="docs-photo"><img src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/docs-folders.jpg" alt="Пакет документов для тендера" loading="lazy"></div>
+    <div class="docs">
       <div class="doc">Сертификаты соответствия<small>на продукцию</small></div>
       <div class="doc">Договор поставки<small>с ответственностью сторон</small></div>
       <div class="doc">Технические паспорта<small>и инструкции</small></div>
       <div class="doc">ТТН и счета-фактуры<small>товарно-транспортные накладные</small></div>
       <div class="doc">Сертификаты происхождения<small>СТ-1</small></div>
       <div class="doc">Комплект под тендер<small>собираем под требования площадки</small></div>
-    </div>
+    </div></div>
   </div>
 </section>
 
@@ -1032,8 +810,8 @@ body.menu-open .hdr{transform:none!important}
   <div class="wrap">
     <div class="eyebrow rv">Готовы помочь с вашим объектом</div>
     <h2 class="rv d1">Отправьте заявку, перезвоним за 15 минут</h2>
-    <p class="lead rv d2">ПН–ПТ, 09:00–18:00. Без спама, только по делу.</p>
-    <form class="form-wrap rv d3" id="leadForm" novalidate>
+    <p class="lead rv d2">В рабочее время: с понедельника по пятницу, 09:00 до 18:00. Не будем спамить, только по делу.</p>
+    <div class="cta-grid"><form class="form-wrap rv d3" id="leadForm" novalidate>
       <div class="form-grid">
         <label class="field"><span>Ваше имя</span><input type="text" name="name" placeholder="Как к вам обращаться" required></label>
         <label class="field"><span>Телефон</span><input type="tel" name="phone" placeholder="+7 ___ ___ __ __" required inputmode="tel"></label>
@@ -1051,6 +829,8 @@ body.menu-open .hdr{transform:none!important}
       </div>
       <p class="form-note" id="formNote">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.</p>
     </form>
+    <div class="cta-photo rv d4"><img src="https://arm-garant.kz/wp-content/themes/armgarant/assets/img/demo/cta-workshop.jpg" alt="" loading="lazy"><div><b>Ответим за 15 минут</b>В рабочее время менеджер перезвонит, уточнит объём и подготовит КП построчно.</div></div>
+    </div>
   </div>
 </section>
 
@@ -1090,6 +870,20 @@ body.menu-open .hdr{transform:none!important}
 
 <!-- НИЖНЯЯ ПАНЕЛЬ -->
 <div class="dock" id="dock">
+  <div class="gauge" title="Давление в системе растёт по мере прокрутки" aria-hidden="true">
+      <svg viewBox="0 0 100 100" id="gaugeSvg">
+        <circle cx="50" cy="50" r="46" fill="#fff" stroke="#CDD5D0" stroke-width="2"/>
+        <path d="M 20 78 A 40 40 0 1 1 80 78" fill="none" stroke="#DCE3DF" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 89.5 43.7 A 40 40 0 0 1 78.3 78.3" fill="none" stroke="#C8412F" stroke-width="6" stroke-linecap="round" opacity=".85"/>
+        <g id="ticks"></g>
+        <g class="needle" id="needle" transform="rotate(-135 50 50)">
+          <path d="M50 50 L 50 14" stroke="#141D24" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="5" fill="#B98A2B"/>
+        </g>
+        <text x="50" y="82" text-anchor="middle" class="val" id="gaugeVal">0.0 bar</text>
+        <text x="50" y="92" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#4B5A64">PN16</text>
+      </svg>
+    </div>
   <a class="d-call" href="tel:+77078050031"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.9 2z"/></svg>Позвонить</a>
   <a class="d-wa" href="https://wa.me/77078050031" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 12 12 0 0 0 4.6 4c1.7.7 2.3.8 3.1.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>WhatsApp</a>
   <a class="d-req" href="#zayavka">Спецификацию → КП</a>
@@ -1115,24 +909,11 @@ body.menu-open .hdr{transform:none!important}
     ticks.appendChild(l);
   }
 
-  /* ---- бренды: бегущая строка с логотипами ---- */
-  const brands = [
-    ['kflex','K-FLEX'],['siemens','SIEMENS'],['ayvaz','AYVAZ'],['wilo','WILO'],['valtec','VALTEC'],
-    ['ld','LD'],['zetkama','ZETKAMA'],['sti','STI'],['danfoss','Danfoss'],['uponor','UPONOR'],
-    ['hyundai','HYUNDAI'],['benarmo','BENARMO'],['giacomini','Giacomini'],['wester','Wester'],
-    ['fittex','FITTEX'],['also','ALSO'],['temper','TEMPER'],['lmz','ЛМЗ'],
-    ['bagoriya','Багория'],['mzta','МЗТА'],['broen','BROEN'],['genebre','GENEBRE'],['tecofi','Tecofi'],
-    ['vexve','Vexve'],['abra','ABRA'],['adl','ADL'],['naval','NAVAL'],['honeywell','Honeywell'],
-    ['grundfos','GRUNDFOS'],['esbe','ESBE'],['herz','HERZ'],['oventrop','Oventrop'],
-    ['watts','WATTS'],['aquasfera','Aquasfera']
-  ];
+  /* ---- бренды: бегущая строка ---- */
+  const brands = [['K-FLEX','kflex'],['SIEMENS','siemens'],['AYVAZ','ayvaz'],['WILO','wilo'],['VALTEC','valtec'],['LD','ld'],['ZETKAMA','zetkama'],['STI','sti'],['Danfoss','danfoss'],['UPONOR','uponor'],['HYUNDAI','hyundai'],['BENARMO','benarmo'],['Giacomini','giacomini'],['Wester','wester'],['FITTEX','fittex'],['ALSO','also'],['TEMPER','temper'],['ЛМЗ','lmz'],['Багория','bagoriya'],['МЗТА','mzta'],['BROEN','broen'],['GENEBRE','genebre'],['Tecofi','tecofi'],['Vexve','vexve'],['ABRA','abra'],['ADL','adl'],['NAVAL','naval'],['Honeywell','honeywell'],['GRUNDFOS','grundfos'],['ESBE','esbe'],['HERZ','herz'],['Oventrop','oventrop'],['WATTS','watts'],['Aquasfera','aquasfera']];
+  const LOGO='https://arm-garant.kz/wp-content/uploads/2026/08/';
   const half = Math.ceil(brands.length/2);
-  const fill = (id, list)=>{
-    const el=document.getElementById(id);
-    const html=list.map(b=>'<span class="brand"><img src="assets/brands/'+b[0]+
-      '.webp" alt="'+b[1]+'" loading="lazy" decoding="async" height="30"></span>').join('');
-    el.innerHTML = html+html;
-  };
+  const fill = (id, list)=>{ const el=document.getElementById(id); const html=list.map(b=>'<span class="brand"><img src="'+LOGO+b[1]+'.png" alt="'+b[0]+'" loading="lazy"></span>').join(''); el.innerHTML = html+html; };
   fill('m1', brands.slice(0,half)); fill('m2', brands.slice(half));
 
   /* ---- скролл: труба, манометр, маховик ---- */
@@ -1153,6 +934,7 @@ body.menu-open .hdr{transform:none!important}
       needle.setAttribute('transform','rotate(' + (-135 + 270*p) + ' 50 50)');
       gaugeVal.textContent = bar.toFixed(1) + ' bar';
       if(wheel && !prefersReduced) wheel.style.transform = 'rotate(' + (y*0.25) + 'deg)';
+      const hi=document.getElementById('heroImg'); if(hi && !prefersReduced && y<innerHeight) hi.style.transform='scale(1.05) translateY('+(y*0.08)+'px)';
       dock.classList.toggle('show', y > innerHeight*0.55);
       ticking=false;
     });
@@ -1197,6 +979,8 @@ body.menu-open .hdr{transform:none!important}
     burger.setAttribute('aria-expanded',open);
     document.body.style.overflow=open?'hidden':'';
   });
+  const closeMenu=()=>{document.body.classList.remove('menu-open');document.body.style.overflow='';burger.setAttribute('aria-expanded','false');};
+  document.getElementById('menuClose').addEventListener('click',closeMenu);
   document.querySelectorAll('#menu a').forEach(a=>a.addEventListener('click',()=>{
     document.body.classList.remove('menu-open');document.body.style.overflow='';burger.setAttribute('aria-expanded','false');
   }));
@@ -1204,7 +988,7 @@ body.menu-open .hdr{transform:none!important}
   /* ---- "Запросить КП" подставляет раздел в форму ---- */
   const msg=document.getElementById('msgField');
   document.querySelectorAll('[data-topic]').forEach(a=>a.addEventListener('click',()=>{
-    if(!msg.value) msg.value=window.AG_T('topic')+': '+window.AG_T(a.dataset.topic)+'. ';
+    if(!msg.value) msg.value='Раздел: '+a.dataset.topic+'. ';
   }));
 
   /* ---- форма: отправка в WhatsApp с готовым текстом ---- */
@@ -1214,479 +998,13 @@ body.menu-open .hdr{transform:none!important}
     const f=new FormData(form);
     if(f.get('company')) return;
     const name=(f.get('name')||'').trim(), phone=(f.get('phone')||'').trim(), m=(f.get('msg')||'').trim();
-    if(!name||!phone){ note.textContent=window.AG_T('err'); note.style.color='#C8412F'; return; }
-    const text=encodeURIComponent(window.AG_T('wa.head'))+'%0A'+encodeURIComponent(window.AG_T('wa.name'))+': '+encodeURIComponent(name)+'%0A'+encodeURIComponent(window.AG_T('wa.phone'))+': '+encodeURIComponent(phone)+(m?'%0A'+encodeURIComponent(m):'');
+    if(!name||!phone){ note.textContent='Укажите имя и телефон, чтобы мы могли перезвонить.'; note.style.color='#C8412F'; return; }
+    const text='Заявка с сайта Арм-гарант%0AИмя: '+encodeURIComponent(name)+'%0AТелефон: '+encodeURIComponent(phone)+(m?'%0A'+encodeURIComponent(m):'');
     window.open('https://wa.me/77078050031?text='+text,'_blank');
-    note.textContent=window.AG_T('ok');
+    note.textContent='Заявка сформирована. Если WhatsApp не открылся, позвоните: +7 707 805 00 31';
     note.style.color='var(--steel)';
     form.reset();
   });
-})();
-</script>
-
-<script>
-/* ===== Визуальный слой: лента фото, шторки, наклон карточек, прожектор, магнит ===== */
-(function(){
-"use strict";
-var RED = matchMedia("(prefers-reduced-motion: reduce)").matches;
-var HAS_IO = typeof IntersectionObserver === "function";
-if (HAS_IO && !RED) document.documentElement.classList.add("js");
-
-/* --- лента фотографий --- */
-var SHOTS = [
-  ["sklad.webp","Склад в Астане","Склад в Астане"],
-  ["dostavka-astana.webp","Доставка по Астане","Доставка по Астане"],
-  ["obekt-vodootvedenie.webp","Прокладка трубопровода на объекте","Работы на объекте"],
-  ["dokumenty.webp","Пакет документов на поставку","Документы на поставку"],
-  ["proektnoe.webp","Подбор оборудования по проекту","Подбор по проекту"],
-  ["dostavka-kz.webp","Доставка в регионы Казахстана","Доставка по Казахстану"]
-];
-var strip = document.getElementById("strip");
-if (strip) {
-  var html = SHOTS.map(function(x){
-    return '<figure class="shot"><img src="assets/shots/' + x[0] + '" alt="' + x[1] +
-           '" loading="lazy" decoding="async" width="720" height="540">' +
-           '<figcaption>' + x[2] + '</figcaption></figure>';
-  }).join("");
-  strip.innerHTML = html + html;
-}
-
-/* --- шторка при появлении фотографий --- */
-if (HAS_IO) {
-  var slotIO = new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); slotIO.unobserve(e.target); } });
-  },{threshold:.16});
-  document.querySelectorAll(".shot, .prod").forEach(function(el){ slotIO.observe(el); });
-  /* страховка: если наблюдатель не отработал, фотографии всё равно видны */
-  setTimeout(function(){
-    document.querySelectorAll(".shot, .prod").forEach(function(el){
-      var r = el.getBoundingClientRect();
-      if (r.top < innerHeight && r.bottom > 0) el.classList.add("in");
-    });
-  }, 2500);
-}
-
-/* --- линия шагов заполняется --- */
-var steps = document.querySelector(".steps");
-if (steps && HAS_IO) {
-  var stIO = new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("lit"); stIO.unobserve(e.target); } });
-  },{threshold:.25});
-  stIO.observe(steps);
-}
-
-if (!RED && matchMedia("(hover:hover)").matches) {
-  /* --- наклон карточек за курсором --- */
-  document.querySelectorAll(".card").forEach(function(card){
-    var raf = 0;
-    card.addEventListener("mousemove", function(ev){
-      if (raf) return; raf = requestAnimationFrame(function(){
-        raf = 0;
-        var r = card.getBoundingClientRect();
-        var px = (ev.clientX - r.left) / r.width - .5;
-        var py = (ev.clientY - r.top) / r.height - .5;
-        card.classList.add("tilting");
-        card.style.transform = "perspective(1100px) rotateX(" + (-py * 4.5).toFixed(2) +
-                               "deg) rotateY(" + (px * 5.5).toFixed(2) + "deg) translateY(-4px)";
-      });
-    });
-    card.addEventListener("mouseleave", function(){
-      card.classList.remove("tilting");
-      card.style.transform = "";
-    });
-  });
-
-  /* --- прожектор в первом экране --- */
-  var hero = document.querySelector(".hero");
-  if (hero) hero.addEventListener("mousemove", function(ev){
-    var r = hero.getBoundingClientRect();
-    hero.style.setProperty("--mx", ((ev.clientX - r.left) / r.width * 100).toFixed(1) + "%");
-    hero.style.setProperty("--my", ((ev.clientY - r.top) / r.height * 100).toFixed(1) + "%");
-  });
-
-  /* --- кнопки тянутся к курсору --- */
-  document.querySelectorAll(".btn, .lnk").forEach(function(b){
-    b.addEventListener("mousemove", function(ev){
-      var r = b.getBoundingClientRect();
-      var dx = (ev.clientX - r.left - r.width / 2) / r.width;
-      var dy = (ev.clientY - r.top - r.height / 2) / r.height;
-      b.style.transform = "translate(" + (dx * 7).toFixed(1) + "px," + (dy * 5).toFixed(1) + "px)";
-    });
-    b.addEventListener("mouseleave", function(){ b.style.transform = ""; });
-  });
-}
-
-/* --- шапка прячется при движении вниз --- */
-var hdr = document.querySelector(".hdr"), prev = 0, tick = false;
-addEventListener("scroll", function(){
-  if (tick) return; tick = true;
-  requestAnimationFrame(function(){
-    tick = false;
-    var y = window.scrollY || document.documentElement.scrollTop;
-    if (document.body.classList.contains("menu-open")) { hdr.classList.remove("hide"); prev = y; return; }
-    hdr.classList.toggle("hide", y > 220 && y > prev);
-    prev = y;
-  });
-}, {passive:true});
-
-/* --- зерно поверх страницы --- */
-if (!RED) {
-  var g = document.createElement("div");
-  g.className = "grain"; g.setAttribute("aria-hidden","true");
-  document.body.appendChild(g);
-}
-})();
-</script>
-
-<script>
-/* ===== i18n RU/KZ. Разметка — русская, словарь снизу. ===== */
-(function(){
-"use strict";
-var KK = {
-"Арм-гарант, на главную": "Арм-гарант, басты бетке",
-"арматура · КИПиА · детали": "арматура · БӨА · бөлшектер",
-"Давление в системе растёт по мере прокрутки": "Бет төмен жылжыған сайын жүйедегі қысым артады",
-"Меню": "Мәзір",
-"Схема сайта": "Сайт картасы",
-"Продукция": "Өнім",
-"Запорная арматура": "Бекіткіш арматура",
-"Полипропиленовые системы": "Полипропилен жүйелері",
-"Детали трубопроводов": "Құбыр бөлшектері",
-"Контрольно-измерительные приборы": "Бақылау-өлшеу аспаптары",
-"Сварочные материалы": "Дәнекерлеу материалдары",
-"Фитинги латунные": "Жез фитингтер",
-"Фильтры и грязевики": "Сүзгілер мен кір ұстағыштар",
-"Компания": "Компания",
-"Подбор под спецификацию": "Спецификация бойынша іріктеу",
-"Почему Арм-гарант": "Неліктен Арм-гарант",
-"Бренды": "Брендтер",
-"Тендеры и объекты": "Тендерлер мен нысандар",
-"Реализованные объекты": "Орындалған нысандар",
-"Партнёрам и дилерам": "Серіктестер мен дилерлерге",
-"Как мы работаем": "Қалай жұмыс істейміз",
-"Документы": "Құжаттар",
-"Оставить заявку": "Өтінім қалдыру",
-"Контакты": "Байланыс",
-"вход": "кіру",
-"Астана · поставки по всему Казахстану · с 2017": "Астана · Қазақстан бойынша жеткізу · 2017 жылдан",
-"Отправить спецификацию": "Спецификация жіберу",
-"Смотреть продукцию": "Өнімді қарау",
-"позиций в каталоге": "каталог позициясы",
-"заводов-изготовителей": "өндіруші зауыт",
-"направлений поставки": "жеткізу бағыты",
-"Сертификаты и СТ-1": "Сертификаттар және СТ-1",
-"КП построчно за 15 минут": "Коммерциялық ұсыныс 15 минутта",
-"Отсрочка партнёрам": "Серіктестерге төлем мерзімін ұзарту",
-"откройте задвижку, листайте вниз": "ысырманы ашыңыз, төмен жылжыңыз",
-"каталог": "каталог",
-"Наша продукция · 7 разделов": "Біздің өнім · 7 бөлім",
-"Схема поставки: каждый узел закрываем сами": "Жеткізу схемасы: әр торапты өзіміз жабамыз",
-"Узел ЗА": "БА торабы",
-"808 позиций онлайн": "808 позиция онлайн",
-"Затворы поворотные": "Бұрылмалы ысырмалар",
-"Клапаны регулирующие": "Реттеуші клапандар",
-"Краны шаровые ALSO": "ALSO шар крандары",
-"Задвижки чугунные": "Шойын ысырмалар",
-"Задвижки шиберные": "Шиберлі ысырмалар",
-"Задвижки с электроприводом": "Электржетекті ысырмалар",
-"Электроприводы": "Электржетектер",
-"Краны латунные STI, LD": "STI, LD жез крандары",
-"Открыть раздел": "Бөлімді ашу",
-"Запросить КП": "Коммерциялық ұсыныс сұрау",
-"Узел ПП": "ПП торабы",
-"364 позиции онлайн": "364 позиция онлайн",
-"Фитинги полипропиленовые": "Полипропилен фитингтері",
-"Трубы полипропиленовые": "Полипропилен құбырлары",
-"Узел ДТ": "ҚБ торабы",
-"230 позиций онлайн": "230 позиция онлайн",
-"Фланцы стальные плоские": "Болат жазық фланецтер",
-"Болты, гайки, шайбы": "Болттар, гайкалар, шайбалар",
-"Сгоны": "Сгондар",
-"Переходы стальные": "Болат ауыспалар",
-"Компенсаторы сильфонные": "Сильфонды компенсаторлар",
-"Тройники стальные": "Болат тройниктер",
-"Отводы крутоизогнутые": "Күрт иілген бұрылымдар",
-"Узел КИП": "БӨА торабы",
-"83 позиции онлайн": "83 позиция онлайн",
-"Манометры": "Манометрлер",
-"Термометры": "Термометрлер",
-"Термоманометры": "Термоманометрлер",
-"Узел СВ": "ДМ торабы",
-"53 позиции онлайн": "53 позиция онлайн",
-"Электроды": "Электродтар",
-"Узел ФТ": "ЖФ торабы",
-"19 позиций онлайн": "19 позиция онлайн",
-"Фитинги латунные резьбовые": "Бұрандалы жез фитингтер",
-"Узел ФЛ": "СҮ торабы",
-"84 позиции онлайн": "84 позиция онлайн",
-"Фильтры и запчасти": "Сүзгілер мен қосалқы бөлшектер",
-"Грязевики LD": "LD кір ұстағыштары",
-"подбор": "іріктеу",
-"Не нашли позицию?": "Позицияны таппадыңыз ба?",
-"Пришлите спецификацию, остальное сделаем мы": "Спецификацияны жіберіңіз, қалғанын өзіміз жасаймыз",
-"Подбор": "Іріктеу",
-"Найдём оригинал или аналог": "Түпнұсқаны немесе аналогты табамыз",
-"Спецификация": "Спецификация",
-"Разберём проект построчно": "Жобаны жол-жолымен талдаймыз",
-"Под заказ": "Тапсырыспен",
-"Поставим от производителя": "Өндірушіден жеткіземіз",
-"Совместимость": "Үйлесімділік",
-"Проверим параметры": "Параметрлерді тексереміз",
-"Персональный менеджер": "Жеке менеджер",
-"Сопровождаем на всех этапах: от заявки до отгрузки": "Барлық кезеңде сүйемелдейміз: өтінімнен жөнелтуге дейін",
-"В WhatsApp": "WhatsApp-та",
-"гарантии": "кепілдіктер",
-"Почему Арм-гарант выбирают снабженцы и подрядчики": "Жабдықтаушылар мен мердігерлер Арм-гарантты неге таңдайды",
-"Ведомость требований: закрыто по всем пунктам": "Талаптар тізімдемесі: барлық тармақ жабылған",
-"Широкий ассортимент в наличии": "Қоймада кең ассортимент",
-"Быстрая отгрузка": "Жылдам жөнелту",
-"Конкурентные цены": "Бәсекеге қабілетті бағалар",
-"Гарантированное качество": "Кепілдендірілген сапа",
-"Профессиональная консультация": "Кәсіби кеңес",
-"Комплектация под ключ": "Кілт тапсырмалы жинақтау",
-"Доставка по всему Казахстану": "Қазақстан бойынша жеткізу",
-"Надёжный партнёр": "Сенімді серіктес",
-"подкатегорий продукции": "өнім ішкі санаты",
-"лет на рынке Казахстана": "жыл Қазақстан нарығында",
-"бренды": "брендтер",
-"Работаем с ведущими производителями": "Жетекші өндірушілермен жұмыс істейміз",
-"Официальные поставки, оригинал с документами": "Ресми жеткізу, құжаттарымен түпнұсқа",
-"тендеры": "тендерлер",
-"Работаем с объектами и тендерами": "Нысандармен және тендерлермен жұмыс істейміз",
-"Комплектная поставка по спецификации. Официально": "Спецификация бойынша жинақты жеткізу. Ресми",
-"КП": "Ұсыныс",
-"Разберём спецификацию построчно": "Спецификацияны жол-жолымен талдаймыз",
-"Подготовим комплект для тендера": "Тендерге арналған жинақ дайындаймыз",
-"Госзакуп и коммерция": "Мемсатып алу және коммерция",
-"Государственные и коммерческие тендеры": "Мемлекеттік және коммерциялық тендерлер",
-"Один договор": "Бір шарт",
-"Несколько категорий, одна поставка": "Бірнеше санат, бір жеткізілім",
-"Отсрочка платежа": "Төлем мерзімін ұзарту",
-"Проверенным партнёрам предоставляем отсрочку": "Тексерілген серіктестерге төлем мерзімін ұзартамыз",
-"объекты": "нысандар",
-"Нефтянка, строительство, ЖКХ, промышленность": "Мұнай саласы, құрылыс, ТКШ, өнеркәсіп",
-"Реконструкция водоканала г. Караганда": "Қарағанды қаласының су арнасын реконструкциялау",
-"Отрасль": "Сала",
-"ЖКХ": "ТКШ",
-"Объём": "Көлемі",
-"420 ед.": "420 дана",
-"Срок": "Мерзімі",
-"5 мес.": "5 ай",
-"Поставка для нефтеперерабатывающего завода": "Мұнай өңдеу зауытына жеткізу",
-"Нефтянка": "Мұнай саласы",
-"260 ед.": "260 дана",
-"4 мес.": "4 ай",
-"Оснащение котельной ЖК «Премиум»": "«Премиум» ТК қазандығын жарақтандыру",
-"340 ед.": "340 дана",
-"3 мес.": "3 ай",
-"Трубопроводная обвязка промышленного цеха": "Өнеркәсіптік цехтың құбыр байламы",
-"Пром.": "Өнерк.",
-"180 ед.": "180 дана",
-"2 мес.": "2 ай",
-"партнёрам": "серіктестерге",
-"Для партнёров и дилеров": "Серіктестер мен дилерлерге",
-"Надёжный бэк-офис вашего снабжения": "Жабдықтауыңыздың сенімді бэк-офисі",
-"Оптовые цены": "Көтерме бағалар",
-"Постоянный приоритет": "Тұрақты басымдық",
-"Единое КП": "Бірыңғай коммерциялық ұсыныс",
-"Стать партнёром": "Серіктес болу",
-"процесс": "үдеріс",
-"Просто. Быстро. Без бюрократии": "Қарапайым. Жылдам. Бюрократиясыз",
-"0 мин": "0 мин",
-"Вы отправляете заявку": "Сіз өтінім жібересіз",
-"до 15 мин": "15 минутқа дейін",
-"Менеджер перезванивает": "Менеджер қайта қоңырау шалады",
-"Готовим КП построчно": "Ұсынысты жол-жолымен дайындаймыз",
-"ЭДО": "ЭҚА",
-"Договор и счёт": "Шарт және шот",
-"отгрузка": "жөнелту",
-"Поставляем в срок": "Мерзімінде жеткіземіз",
-"документы": "құжаттар",
-"Документы и сертификаты": "Құжаттар мен сертификаттар",
-"Полный пакет для тендерных заявок и госзакупок": "Тендерлік өтінімдер мен мемсатып алуға толық пакет",
-"Сертификаты соответствия": "Сәйкестік сертификаттары",
-"на продукцию": "өнімге",
-"Договор поставки": "Жеткізу шарты",
-"с ответственностью сторон": "тараптардың жауапкершілігімен",
-"Технические паспорта": "Техникалық паспорттар",
-"и инструкции": "және нұсқаулықтар",
-"ТТН и счета-фактуры": "ТКЖ және шот-фактуралар",
-"товарно-транспортные накладные": "тауар-көлік жүкқұжаттары",
-"Сертификаты происхождения": "Шығу тегі сертификаттары",
-"СТ-1": "СТ-1",
-"Комплект под тендер": "Тендерге арналған жинақ",
-"собираем под требования площадки": "алаң талабына сай жинаймыз",
-"заявка": "өтінім",
-"Готовы помочь с вашим объектом": "Нысаныңызға көмектесуге дайынбыз",
-"Отправьте заявку, перезвоним за 15 минут": "Өтінім жіберіңіз, 15 минутта қайта қоңырау шаламыз",
-"Ваше имя": "Атыңыз",
-"Как к вам обращаться": "Сізге қалай жүгінейік",
-"Телефон": "Телефон",
-"Что нужно поставить": "Не жеткізу керек",
-"Позиции, объём, сроки, объект. Спецификацию можно отправить после в WhatsApp": "Позициялар, көлемі, мерзімдері, нысан. Спецификацияны кейін WhatsApp-қа жіберуге болады",
-"Отправить заявку": "Өтінім жіберу",
-"Написать в WhatsApp": "WhatsApp-қа жазу",
-"Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.": "Түймені басу арқылы сіз құпиялылық саясатымен келісесіз.",
-"контакты": "байланыс",
-"инженерная продукция для объектов": "нысандарға арналған инженерлік өнім",
-"Арматура, детали трубопроводов, КИПиА и полипропилен — 1 641 позиция каталога для объектов в Казахстане.": "Арматура, құбыр бөлшектері, БӨА және полипропилен — Қазақстандағы нысандарға арналған 1 641 каталог позициясы.",
-"Астана, ул. М. Дулатова, 187/1": "Астана, М. Дулатов көшесі, 187/1",
-"ПН–ПТ, 09:00–18:00": "Дс–Жм, 09:00–18:00",
-"КИПиА": "БӨА",
-"Фитинги": "Фитингтер",
-"Фильтры": "Сүзгілер",
-"© 2026 Арм-гарант. Все права защищены.": "© 2026 Арм-гарант. Барлық құқықтар қорғалған.",
-"Политика конфиденциальности": "Құпиялылық саясаты",
-"Позвонить": "Қоңырау шалу",
-"Спецификацию → КП": "Спецификация → ұсыныс",
-"ЗА·808": "БА·808",
-"ПП·364": "ПП·364",
-"ДТ·230": "ҚБ·230",
-"КИП·83": "БӨА·83",
-"СВ·53": "ДМ·53",
-"ФТ·19": "ЖФ·19",
-"ФЛ·84": "СҮ·84",
-"Язык сайта": "Сайт тілі",
-"Комплектуем объект по спецификации. Одна поставка, полный пакет документов, любой регион.": "Нысанды спецификация бойынша жинақтаймыз. Бір жеткізілім, толық құжат пакеті, кез келген өңір.",
-"Семь направлений. По каждому — свой раздел каталога.": "Жеті бағыт. Әрқайсысының жеке каталог бөлімі бар.",
-"Задвижки, затворы, регулирующие клапаны, шаровые краны. LD, STI, ALSO, Temper.": "Ысырмалар, бұрылмалы ысырмалар, реттеуші клапандар, шар крандары. LD, STI, ALSO, Temper.",
-"Трубы и фитинги PPR. Вся линейка диаметров.": "PPR құбырлары мен фитингтері. Диаметрлердің толық қатары.",
-"Фланцы, отводы, переходы, тройники, компенсаторы, крепёж.": "Фланецтер, бұрылымдар, ауыспалар, тройниктер, компенсаторлар, бекіткіштер.",
-"Манометры, термометры, термоманометры. Паспорта в комплекте.": "Манометрлер, термометрлер, термоманометрлер. Паспорттар жинақта.",
-"Электроды для углеродистых и легированных сталей. Упаковками и паллетами.": "Көміртекті және легирленген болаттарға арналған электродтар. Орамдап және паллеттеп.",
-"Латунь: муфты, ниппели, уголки, тройники, переходы.": "Жез: муфталар, ниппельдер, бұрыштамалар, тройниктер, ауыспалар.",
-"Сетчатые фильтры, грязевики LD, сменные сетки.": "Торлы сүзгілер, LD кір ұстағыштары, ауыспалы торлар.",
-"Найдём оригинал или аналог с сохранением параметров.": "Параметрлерін сақтай отырып түпнұсқаны немесе аналогты табамыз.",
-"Давление, среда, материал, присоединение.": "Қысым, орта, материал, жалғау.",
-"Разберём ведомость, вернём подбор с ценами.": "Тізімдемені талдап, бағасымен іріктеу қайтарамыз.",
-"Напрямую, в согласованный срок.": "Тікелей, келісілген мерзімде.",
-"Размеры, давление, ГОСТ и ТР ТС.": "Өлшемдер, қысым, МЕМСТ және КО ТР.",
-"Оригинал, документы, одна поставка.": "Түпнұсқа, құжаттар, бір жеткізілім.",
-"склад": "қойма",
-"Собственный склад · Астана": "Меншікті қойма · Астана",
-"Видно, откуда едет ваш заказ": "Тапсырысыңыз қайдан шығатыны көрінеді",
-"Цены и сроки по каждой строке.": "Әр жол бойынша баға мен мерзім.",
-"Сертификаты, ТТН, СТ-1, паспорта, договор.": "Сертификаттар, ТКЖ, СТ-1, паспорттар, шарт.",
-"Знаем требования площадок, работаем по ЭДО.": "Алаң талаптарын білеміз, электрондық құжат айналымымен жұмыс істейміз.",
-"Разные разделы каталога — одна отгрузка.": "Каталогтың әртүрлі бөлімі — бір жөнелтілім.",
-"Оптовые цены, приоритет заявок, одно КП на всё.": "Көтерме бағалар, өтінімге басымдық, бәріне бір ұсыныс.",
-"На складе — сразу, остальное за 1–3 дня.": "Қоймада барын бірден, қалғанын 1–3 күнде.",
-"Ваши заявки идут первыми.": "Сіздің өтінімдеріңіз бірінші.",
-"Много позиций — одна поставка, один договор.": "Көп позиция — бір жеткізілім, бір шарт.",
-"Форма, WhatsApp или почта. Можно файлом.": "Форма, WhatsApp немесе пошта. Файлмен де болады.",
-"Уточняем объём, сроки, условия.": "Көлемін, мерзімін, шарттарын нақтылаймыз.",
-"Цены, сроки, аналоги.": "Бағалар, мерзімдер, аналогтар.",
-"Электронный документооборот.": "Электрондық құжат айналымы.",
-"Транспортной компанией или самовывоз.": "Көлік компаниясымен немесе өзі алып кету.",
-"ПН–ПТ, 09:00–18:00. Без спама, только по делу.": "Дс–Жм, 09:00–18:00. Спамсыз, тек іс бойынша.",
-"Склад и офис · Астана": "Қойма және кеңсе · Астана",
-"Позиции в наличии на складе": "Қоймадағы қолда бар позициялар",
-"Отгрузка со склада": "Қоймадан жөнелту",
-"Партнёрские условия и отсрочка": "Серіктестік шарттары және төлем мерзімін ұзарту",
-"Склад в Астане": "Астанадағы қойма",
-"Доставка по Астане": "Астана бойынша жеткізу",
-"Работы на объекте": "Нысандағы жұмыстар",
-"Документы на поставку": "Жеткізуге арналған құжаттар",
-"Подбор по проекту": "Жоба бойынша іріктеу",
-"Доставка по Казахстану": "Қазақстан бойынша жеткізу",
-"Задвижка стальная фланцевая": "Болат фланецті ысырма",
-"Трубы полипропиленовые PPR": "PPR полипропилен құбырлары",
-"Манометр технический": "Техникалық манометр",
-"Электроды сварочные": "Дәнекерлеу электродтары",
-"Фильтр сетчатый фланцевый LD": "LD фланецті торлы сүзгісі",
-"Склад и офис Арм-гарант в Астане": "Астанадағы Арм-гарант қоймасы мен кеңсесі",
-"Стеллажи склада с трубопроводной арматурой": "Құбыр арматурасы бар қойма сөрелері",
-"Отгрузка заказа транспортной компании": "Тапсырысты көлік компаниясына жөнелту",
-"Реконструкция водоканала, Караганда": "Су арнасын реконструкциялау, Қарағанды",
-"Нефтеперерабатывающий завод": "Мұнай өңдеу зауыты",
-"Котельная жилого комплекса": "Тұрғын кешеннің қазандығы",
-"Подписание партнёрского договора": "Серіктестік шартқа қол қою",
-"Прокладка трубопровода на объекте": "Нысанда құбыр тарту",
-"Пакет документов на поставку": "Жеткізуге арналған құжаттар пакеті",
-"Подбор оборудования по проекту": "Жоба бойынша жабдық іріктеу",
-"Доставка в регионы Казахстана": "Қазақстан өңірлеріне жеткізу"
-};
-var UI = { ru: {"wa.head": "Заявка с сайта Арм-гарант", "wa.name": "Имя", "wa.phone": "Телефон", "err": "Укажите имя и телефон, чтобы мы могли перезвонить.", "ok": "Заявка сформирована. Если WhatsApp не открылся, позвоните: +7 707 805 00 31", "topic": "Раздел"}, kk: {"wa.head": "Арм-гарант сайтынан өтінім", "wa.name": "Аты", "wa.phone": "Телефон", "err": "Қайта қоңырау шала алуымыз үшін атыңыз бен телефоныңызды көрсетіңіз.", "ok": "Өтінім қалыптастырылды. WhatsApp ашылмаса, қоңырау шалыңыз: +7 707 805 00 31", "topic": "Бөлім"} };
-var MT = { ru: {"title": "Арм-гарант. Трубопроводная арматура, КИПиА, детали трубопроводов. Астана, доставка по Казахстану", "desc": "Комплексные поставки инженерного оборудования для промышленных и строительных объектов: 1 641 позиция каталога, 7 направлений, 34 завода-изготовителя. Полный пакет документов для тендеров, доставка по всему Казахстану. С 2017 года."}, kk: {"title": "Арм-гарант. Құбыр арматурасы, БӨА, құбыр бөлшектері. Астана, Қазақстан бойынша жеткізу", "desc": "Өнеркәсіптік және құрылыс нысандарына арналған инженерлік жабдықты кешенді жеткізу: 1 641 каталог позициясы, 7 бағыт, 34 өндіруші зауыт. Тендерге толық құжат пакеті, Қазақстан бойынша жеткізу. 2017 жылдан бері."} };
-var H1 = { ru: null, kk: "<span class=\"w\"><span>Арматура,</span></span> <span class=\"w\"><span>БӨА,</span></span> <span class=\"w\"><span>құбыр</span></span> <span class=\"w\"><span>бөлшектері.</span></span><br><span class=\"w\"><span class=\"brass\">Бір</span></span> <span class=\"w\"><span class=\"brass\">жеткізілім.</span></span>" };
-
-window.AG_T = function(k){
-  var l = document.documentElement.lang === "kk" ? "kk" : "ru";
-  if (UI[l][k] !== undefined) return UI[l][k];
-  if (l === "kk" && KK[k] !== undefined) return KK[k];
-  return k;
-};
-
-/* текстовые узлы собираем один раз, храня исходную русскую строку */
-var nodes = [];
-(function collect(){
-  var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false), n;
-  while ((n = w.nextNode())) {
-    var par = n.parentNode;
-    if (!par || !par.closest) continue;
-    if (par.closest("script,style,svg,#h1")) continue;
-    var t = n.nodeValue.trim();
-    if (t && KK[t] !== undefined) nodes.push([n, n.nodeValue, t]);
-  }
-})();
-
-/* атрибуты */
-var ATTRS = [];
-["placeholder","aria-label","title","alt"].forEach(function(a){
-  Array.prototype.forEach.call(document.querySelectorAll("["+a+"]"), function(el){
-    var v = el.getAttribute(a);
-    if (v && KK[v.trim()] !== undefined) ATTRS.push([el, a, v]);
-  });
-});
-
-var h1 = document.getElementById("h1");
-if (h1) H1.ru = h1.innerHTML;
-
-function riseDelays(){
-  var i = 0;
-  document.querySelectorAll("#h1 .w span").forEach(function(sp){
-    sp.style.animationDelay = (0.08 * i + 0.1) + "s"; i++;
-  });
-}
-
-function applyLang(lang){
-  var kk = lang === "kk";
-  document.documentElement.setAttribute("lang", kk ? "kk" : "ru");
-
-  nodes.forEach(function(p){
-    p[0].nodeValue = kk ? p[1].replace(p[2], KK[p[2]]) : p[1];
-  });
-  ATTRS.forEach(function(p){
-    p[0].setAttribute(p[1], kk ? p[2].replace(p[2].trim(), KK[p[2].trim()]) : p[2]);
-  });
-
-  if (h1 && H1[lang]) { h1.innerHTML = H1[lang]; riseDelays(); }
-
-  document.title = MT[lang].title;
-  var d = document.querySelector('meta[name="description"]');
-  if (d) d.setAttribute("content", MT[lang].desc);
-  var og = document.querySelector('meta[property="og:locale"]');
-  if (og) og.setAttribute("content", kk ? "kk_KZ" : "ru_RU");
-
-  document.querySelectorAll(".lang button").forEach(function(b){
-    var on = b.getAttribute("data-lang") === lang;
-    b.classList.toggle("is-active", on);
-    b.setAttribute("aria-pressed", on ? "true" : "false");
-  });
-
-  try { localStorage.setItem("ag-lang", lang); } catch(e){}
-}
-
-function saved(){
-  try { var v = localStorage.getItem("ag-lang"); if (v === "kk" || v === "ru") return v; } catch(e){}
-  return "ru";
-}
-
-document.querySelectorAll(".lang button").forEach(function(b){
-  b.addEventListener("click", function(){ applyLang(b.getAttribute("data-lang")); });
-});
-
-applyLang(saved());
 })();
 </script>
 </body>
